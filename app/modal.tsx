@@ -1,18 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
+import { StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function ModalScreen() {
+
+  const [userId, setUserId] = useState('')
+  const [userToken, setUserToken] = useState('')
+
+  useEffect(() => {
+    const idToken = async () => {
+      const id = await AsyncStorage.getItem('id')
+      setUserId(id || "Unauthorized")
+      const token = await AsyncStorage.getItem('token')
+      setUserToken(token || "No Token")
+    }
+    idToken()
+  })
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Modal</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/modal.tsx" />
+      <View style={{ marginVertical: 20 }}>
+        <Text>User ID</Text>
+        <Text>{userId}</Text>
+      </View>
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+      <View>
+        <Text>Token</Text>
+        <Text>{userToken}</Text>
+      </View>
     </View>
   );
 }
@@ -26,10 +44,5 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
   },
 });
