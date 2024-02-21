@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 
 import { useColorScheme } from '@/components/useColorScheme';
 
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -50,9 +51,11 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false, title: "Tabs" }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="auth" options={{ headerShown: false, title: "Auth" }} /> */}
+        <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
+        <Stack.Screen name="tabs" options={{ headerShown: false, title: "Tabs" }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
+        {/* <Stack.Screen name='(auth)/sign-in' options={{ title: "Sign-In" }} />
+        <Stack.Screen name='(auth)/sign-up' options={{ title: "Sign-Up" }} /> */}
       </Stack>
     </ThemeProvider>
   );

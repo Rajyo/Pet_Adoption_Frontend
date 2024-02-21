@@ -2,35 +2,46 @@ import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import React, { useState } from 'react';
 import Button from '../../components/Button';
 import Colors from '../../constants/Colors';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const SignInScreen = () => {
+const SignUpScreen = () => {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
 
-  async function signInWithEmail() {
+  async function signUpWithEmail() {
     setLoading(true);
-    await axios.post('http://10.0.0.58:8000/api/auth/login', {
+    await axios.post('http://10.0.0.58:8000/api/auth/register', {
+      username,
       email,
       password
     }).then(async (res: any) => {
       // console.log(res.data);
-      await AsyncStorage.setItem('id', res.data._id)
-      await AsyncStorage.setItem('token', res.data.token)
+      setUsername('')
+      setEmail('')
+      setPassword('')
+      router.push('/(auth)/sign-in')
     }).catch((error: any) => {
       Alert.alert(error.message)
     })
-
     setLoading(false);
   }
 
   return (
     <View style={styles.container}>
 
+      <Text style={styles.label}>Username</Text>
+      <TextInput
+        value={username}
+        onChangeText={setUsername}
+        placeholder="jon"
+        style={styles.input}
+      />
+      
       <Text style={styles.label}>Email</Text>
       <TextInput
         value={email}
@@ -49,12 +60,12 @@ const SignInScreen = () => {
       />
 
       <Button
-        onPress={signInWithEmail}
+        onPress={signUpWithEmail}
         disabled={loading}
-        text={loading ? 'Signing in...' : 'Sign in'}
+        text={loading ? 'Creating account...' : 'Create account'}
       />
-      <Link href="/auth/sign-up" style={styles.textButton}>
-        Create an account
+      <Link href="/(auth)/sign-in" style={styles.textButton}>
+        Sign in
       </Link>
     </View>
   );
@@ -86,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInScreen;
+export default SignUpScreen;

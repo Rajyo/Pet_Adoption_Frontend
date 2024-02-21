@@ -4,25 +4,31 @@ import Button from '../../components/Button';
 import Colors from '../../constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const SignUpScreen = () => {
+const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter()
 
-  async function signUpWithEmail() {
+  async function signInWithEmail() {
     setLoading(true);
     await axios.post('http://10.0.0.58:8000/api/auth/login', {
       email,
       password
     }).then(async (res: any) => {
       // console.log(res.data);
-      router.push('/auth/sign-in')
+      await AsyncStorage.setItem('id', res.data._id)
+      await AsyncStorage.setItem('token', res.data.token)
+      setEmail('')
+      setPassword('')
+      router.push('/')
     }).catch((error: any) => {
       Alert.alert(error.message)
     })
+
     setLoading(false);
   }
 
@@ -47,12 +53,12 @@ const SignUpScreen = () => {
       />
 
       <Button
-        onPress={signUpWithEmail}
+        onPress={signInWithEmail}
         disabled={loading}
-        text={loading ? 'Creating account...' : 'Create account'}
+        text={loading ? 'Signing in...' : 'Sign in'}
       />
-      <Link href="/auth/sign-in" style={styles.textButton}>
-        Sign in
+      <Link href="/(auth)/sign-up" style={styles.textButton}>
+        Create an account
       </Link>
     </View>
   );
@@ -84,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default SignInScreen;
