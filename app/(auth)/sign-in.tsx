@@ -1,10 +1,11 @@
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from '../../components/Button';
 import Colors from '../../constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StorageContext } from '@/providers/storageProvider';
 
 
 const SignInScreen = () => {
@@ -13,12 +14,18 @@ const SignInScreen = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter()
 
+  // const { changeId, changeToken } = useContext(StorageContext)
+
   async function signInWithEmail() {
     setLoading(true);
     await axios.post('http://10.0.0.58:8000/api/auth/login', {
       email,
       password
     }).then(async (res: any) => {
+      // if(res.data !== undefined){
+      //   await changeId?.(res?.data?._id )
+      //   await changeToken?.(res?.data?.token)
+      // }
       // console.log(res.data);
       await AsyncStorage.setItem('id', res.data._id)
       await AsyncStorage.setItem('token', res.data.token)

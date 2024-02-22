@@ -1,11 +1,13 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import { Button } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export {
@@ -15,7 +17,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: 'tabs',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -49,14 +51,12 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
-        <Stack.Screen name="tabs" options={{ headerShown: false, title: "Tabs" }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
-        {/* <Stack.Screen name='(auth)/sign-in' options={{ title: "Sign-In" }} />
-        <Stack.Screen name='(auth)/sign-up' options={{ title: "Sign-Up" }} /> */}
-      </Stack>
-    </ThemeProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack screenOptions={{ headerRight: () => <Button title='Logout' onPress={async () => { await AsyncStorage.clear(); router.push('/(auth)/sign-in') }} /> }}>
+          <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
+          <Stack.Screen name="tabs" options={{ headerShown: false, title: "Tabs" }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
+        </Stack>
+      </ThemeProvider>
   );
 }
