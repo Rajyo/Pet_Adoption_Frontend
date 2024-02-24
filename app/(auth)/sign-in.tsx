@@ -13,26 +13,38 @@ const SignInScreen = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter()
 
-  // const { changeId, changeToken } = useContext(StorageContext)
-
   async function signInWithEmail() {
+
+    if(email == '' && password == ''){
+      Alert.alert("Please enter Email and Password")
+      return
+    }
+
+    if(email == ''){
+      Alert.alert("Please enter Email")
+      return
+    }
+    
+    if(password == ''){
+      Alert.alert("Please enter Password")
+      return
+    }
+
     setLoading(true);
     await axios.post('http://10.0.0.58:8000/api/auth/login', {
       email,
       password
     }).then(async (res: any) => {
-      // if(res.data !== undefined){
-      //   await changeId?.(res?.data?._id )
-      //   await changeToken?.(res?.data?.token)
-      // }
-      // console.log(res.data);
       await AsyncStorage.setItem('id', res.data._id)
       await AsyncStorage.setItem('token', res.data.token)
       setEmail('')
       setPassword('')
       router.push('/')
     }).catch((error: any) => {
-      Alert.alert(error.message)
+      // console.log(error.response.data);
+      Alert.alert(error.response.data)
+      setEmail('')
+      setPassword('')
     })
 
     setLoading(false);

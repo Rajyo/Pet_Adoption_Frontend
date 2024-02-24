@@ -13,7 +13,47 @@ const SignUpScreen = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter()
 
+
   async function signUpWithEmail() {
+
+    if (email == '' && password == '' && username == '') {
+      Alert.alert("Please enter Email and Password and Username")
+      return
+    }
+
+    if (username == '') {
+      Alert.alert("Please enter Username")
+      return
+    } else {
+      if (username.length < 3) {
+        Alert.alert("Please enter Username more than 3 letters")
+        return
+      }
+    }
+
+    if (email == '') {
+      Alert.alert("Please enter Email")
+      return
+    } else {
+      var re = /\S+@\S+\.\S+/;
+      var test = re.test(email);
+      if (test === false) {
+        Alert.alert("Please enter vaild Email")
+        return
+      }
+    }
+
+    if (password == '') {
+      Alert.alert("Please enter Password")
+      return
+    } else {
+      if (password.length < 6) {
+        Alert.alert("Please enter Password more than 6 letters")
+        return
+      }
+    }
+
+
     setLoading(true);
     await axios.post('http://10.0.0.58:8000/api/auth/register', {
       username,
@@ -26,7 +66,10 @@ const SignUpScreen = () => {
       setPassword('')
       router.push('/(auth)/sign-in')
     }).catch((error: any) => {
-      Alert.alert(error.message)
+      Alert.alert(error.response.data)
+      setUsername('')
+      setEmail('')
+      setPassword('')
     })
     setLoading(false);
   }
@@ -38,15 +81,15 @@ const SignUpScreen = () => {
       <TextInput
         value={username}
         onChangeText={setUsername}
-        placeholder="jon"
+        placeholder="jondoe"
         style={styles.input}
       />
-      
+
       <Text style={styles.label}>Email</Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
-        placeholder="jon@gmail.com"
+        placeholder="jondoe@gmail.com"
         style={styles.input}
       />
 

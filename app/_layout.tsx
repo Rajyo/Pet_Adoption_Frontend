@@ -1,14 +1,12 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Link, Stack, router } from 'expo-router';
+import { Link, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-
+import { useContext, useEffect } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
-import { Button } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from '@/constants/Colors';
+import { View } from '@/components/Themed';
 
 
 export {
@@ -56,21 +54,27 @@ export function Icon(props: {
 }
 
 
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack screenOptions={{
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{
         headerRight: () =>
-          <Link href={'/profile'} style={{ marginRight: 10 }}>
-            <Icon name='user' color={Colors[colorScheme ?? 'light'].text} />
-          </Link>
+          <View style={{display:"flex", flexDirection:"row", gap:30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
+        }}>
+            <Link href={'/profile'} style={{ marginRight: 10 }}>
+              <Icon name='user' color={Colors[colorScheme ?? 'light'].text} />
+            </Link>
+
+            <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text}/>
+          </View>
       }}>
-          <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false, title: "Tabs" }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
-        </Stack>
-      </ThemeProvider>
+        <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false, title: "Tabs" }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
+      </Stack>
+    </ThemeProvider>
   );
 }
