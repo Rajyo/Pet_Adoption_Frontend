@@ -3,10 +3,12 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Link, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
 import { View } from '@/components/Themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MyContext } from '@/providers/storageProvider';
 
 
 export {
@@ -46,6 +48,7 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+
 export function Icon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
@@ -54,27 +57,44 @@ export function Icon(props: {
 }
 
 
-
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{
-        headerRight: () =>
-          <View style={{display:"flex", flexDirection:"row", gap:30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
-        }}>
-            <Link href={'/profile'} style={{ marginRight: 10 }}>
-              <Icon name='user' color={Colors[colorScheme ?? 'light'].text} />
-            </Link>
 
-            <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text}/>
-          </View>
-      }}>
-        <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false, title: "Tabs" }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
-      </Stack>
-    </ThemeProvider>
+  const [storeToken, setStoreToken] = useState<string | null>(null)
+  const [storeId, setStoreId] = useState<string | null>(null)
+
+  useEffect(() => {
+    const idToken = async () => {
+      const token = await AsyncStorage.getItem('token')
+      setStoreToken(token || "No Token")
+
+      const id = await AsyncStorage.getItem('id')
+      setStoreId(id || "No Id")
+    }
+    idToken()
+  })
+
+  return (
+    <MyContext.Provider value={{ storeToken, storeId }}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack screenOptions={{
+          headerRight: () =>
+            <View style={{
+              display: "flex", flexDirection: "row", marginRight: 16, gap: 30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
+            }}>
+              <Link href={'/profile'} style={{ marginRight: 10 }}>
+                <Icon name='user' color={Colors[colorScheme ?? 'light'].text} />
+              </Link>
+
+              <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text} />
+            </View>
+        }}>
+          <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false, title: "Tabs" }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
+        </Stack>
+      </ThemeProvider>
+    </MyContext.Provider>
   );
 }

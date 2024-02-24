@@ -5,6 +5,7 @@ import Colors from '../../constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { MyContext } from '@/providers/storageProvider';
 
 
 const SignInScreen = () => {
@@ -13,19 +14,21 @@ const SignInScreen = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter()
 
+  // const { changeId, changeToken } = useContext(MyContext)
+
   async function signInWithEmail() {
 
-    if(email == '' && password == ''){
+    if (email == '' && password == '') {
       Alert.alert("Please enter Email and Password")
       return
     }
 
-    if(email == ''){
+    if (email == '') {
       Alert.alert("Please enter Email")
       return
     }
-    
-    if(password == ''){
+
+    if (password == '') {
       Alert.alert("Please enter Password")
       return
     }
@@ -35,6 +38,11 @@ const SignInScreen = () => {
       email,
       password
     }).then(async (res: any) => {
+      // if (res.data !== undefined) {
+      //   await changeId?.(res?.data?._id)
+      //   await changeToken?.(res?.data?.token)
+      // }
+      // console.log(res.data);
       await AsyncStorage.setItem('id', res.data._id)
       await AsyncStorage.setItem('token', res.data.token)
       setEmail('')

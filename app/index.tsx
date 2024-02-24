@@ -1,30 +1,26 @@
-import { Alert, StyleSheet } from 'react-native'
 import { View, Text } from '@/components/Themed'
 import { Link, Stack, useRouter } from 'expo-router'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
+import { MyContext } from '@/providers/storageProvider'
 
 
 const Home = () => {
-    const [userToken, setUserToken] = useState('')
+    const { storeToken, storeId } = useContext(MyContext);
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const router = useRouter()
 
+    // console.log("storeToken", storeToken);
+    // console.log("storeId", storeId);
     useEffect(() => {
-        const idToken = async () => {
-            const token = await AsyncStorage.getItem('token')
-            setUserToken(token || "No Token")
-        }
-        idToken()
-
 
         const user = async () => {
             await axios.get('http://10.0.0.58:8000/userInfo', {
                 headers: {
-                    Authorization: userToken
-                        ? "Bearer " + userToken
+                    Authorization: storeToken
+                        ? "Bearer " + storeToken
                         : null,
                     "Content-Type": "application/json",
                     accept: "application/json",
@@ -37,11 +33,11 @@ const Home = () => {
                 })
                 .catch((error: any) => console.log(error))
         }
-        userToken && user()
+        storeToken && user()
 
-    }, [userToken])
+    }, [storeToken])
 
-    userToken == 'No Token' && router.push('/(auth)/sign-in')
+    storeToken == 'No Token' && router.push('/(auth)/sign-in')
 
 
 
@@ -55,7 +51,7 @@ const Home = () => {
                 <Text><Link href={'/(tabs)'}>tab one</Link></Text>
                 <Text><Link href={'/(tabs)/two'}>tab two</Link></Text>
                 {
-                    !userToken && <>
+                    !storeToken && <>
                         <Text><Link href={'/(auth)/sign-in'}>Sign-In</Link></Text>
                         <Text><Link href={'/(auth)/sign-up'}>Sign-Up</Link></Text>
                     </>
