@@ -1,12 +1,13 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs, useRouter } from 'expo-router';
-
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { Icon } from '../_layout';
-import { View } from '@/components/Themed';
+import { Text, View } from '@/components/Themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -16,9 +17,14 @@ function TabBarIcon(props: {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
   const router = useRouter()
+  const logout = async () => {
+    await AsyncStorage.clear(); router.push('/(auth)/sign-in')
+  }
 
   return (
     <Tabs
@@ -29,13 +35,16 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true),
         headerRight: () =>
           <View style={{
-            display: "flex", flexDirection: "row", marginRight:16, gap: 30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
+            display: "flex", flexDirection: "row", marginRight: 16, gap: 30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
           }}>
             <Link href={'/profile'} style={{ marginRight: 10 }}>
               <Icon name='user' color={Colors[colorScheme ?? 'light'].text} />
             </Link>
 
-            <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text} />
+            <Text onPress={logout} >
+                  <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text} />
+              </Text>          
+            {/* <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text} /> */}
           </View>
       }}>
       <Tabs.Screen

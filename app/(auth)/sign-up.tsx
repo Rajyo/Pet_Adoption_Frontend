@@ -81,7 +81,7 @@ const SignUpScreen = () => {
       <TextInput
         value={username}
         onChangeText={setUsername}
-        placeholder="jondoe"
+        placeholder=""
         style={styles.input}
       />
 
@@ -89,7 +89,7 @@ const SignUpScreen = () => {
       <TextInput
         value={email}
         onChangeText={setEmail}
-        placeholder="jondoe@gmail.com"
+        placeholder=""
         style={styles.input}
       />
 
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: 'gray',
+    fontSize: 14,
   },
   input: {
     borderWidth: 1,
@@ -136,7 +137,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontWeight: 'bold',
     color: Colors.light.tint,
-    marginVertical: 10,
+    marginVertical: 30,
+    fontSize: 16
   },
 });
 

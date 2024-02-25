@@ -1,12 +1,12 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Link, Stack } from 'expo-router';
+import { Link, Stack, router, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
-import { View } from '@/components/Themed';
+import { Text, View } from '@/components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MyContext } from '@/providers/storageProvider';
 
@@ -75,26 +75,34 @@ function RootLayoutNav() {
     idToken()
   })
 
+  const router = useRouter()
+  const logout = async () => {
+    await AsyncStorage.clear(); router.push('/(auth)/sign-in')
+  }
+
   return (
     <MyContext.Provider value={{ storeToken, storeId }}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack screenOptions={{
           headerRight: () =>
             <View style={{
-              display: "flex", flexDirection: "row", marginRight: 16, gap: 30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
+              display: "flex", flexDirection: "row", gap: 30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
             }}>
               <Link href={'/profile'} style={{ marginRight: 10 }}>
                 <Icon name='user' color={Colors[colorScheme ?? 'light'].text} />
               </Link>
 
-              <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text} />
+              <Text onPress={logout} >
+                  <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text} />
+              </Text>
+              {/* <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text} /> */}
             </View>
         }}>
           <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false, title: "Tabs" }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
         </Stack>
-      </ThemeProvider>
-    </MyContext.Provider>
+      </ThemeProvider >
+    </MyContext.Provider >
   );
 }

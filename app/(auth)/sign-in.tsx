@@ -5,7 +5,6 @@ import Colors from '../../constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { MyContext } from '@/providers/storageProvider';
 
 
 const SignInScreen = () => {
@@ -14,7 +13,6 @@ const SignInScreen = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter()
 
-  // const { changeId, changeToken } = useContext(MyContext)
 
   async function signInWithEmail() {
 
@@ -38,10 +36,6 @@ const SignInScreen = () => {
       email,
       password
     }).then(async (res: any) => {
-      // if (res.data !== undefined) {
-      //   await changeId?.(res?.data?._id)
-      //   await changeToken?.(res?.data?.token)
-      // }
       // console.log(res.data);
       await AsyncStorage.setItem('id', res.data._id)
       await AsyncStorage.setItem('token', res.data.token)
@@ -65,7 +59,7 @@ const SignInScreen = () => {
       <TextInput
         value={email}
         onChangeText={setEmail}
-        placeholder="jon@gmail.com"
+        placeholder=""
         style={styles.input}
       />
 
@@ -98,6 +92,8 @@ const styles = StyleSheet.create({
   },
   label: {
     color: 'gray',
+    fontSize: 14,
+
   },
   input: {
     borderWidth: 1,
@@ -112,7 +108,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontWeight: 'bold',
     color: Colors.light.tint,
-    marginVertical: 10,
+    marginVertical: 30,
+    fontSize: 16
   },
 });
 
