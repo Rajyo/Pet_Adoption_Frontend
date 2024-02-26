@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
-import idToken from '@/components/idToken';
+import idToken from '@/components/getIdToken';
 
 
 export default function ModalScreen() {

@@ -1,6 +1,6 @@
 import { View, Text } from '@/components/Themed'
 import { Link, Stack } from 'expo-router'
-import idToken from '@/components/idToken'
+import idToken from '@/components/getIdToken'
 
 const Home = () => {
 
