@@ -41,7 +41,7 @@ const SignInScreen = () => {
       await AsyncStorage.setItem('token', res.data.token)
       setEmail('')
       setPassword('')
-      router.push('/')
+      router.replace('/')
     }).catch((error: any) => {
       // console.log(error.response.data);
       Alert.alert(error.response.data)

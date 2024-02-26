@@ -1,14 +1,16 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Link, Stack, router, useRouter } from 'expo-router';
+import { Link, Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
 import { Text, View } from '@/components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MyContext } from '@/providers/storageProvider';
+import { Button } from 'react-native';
+import idToken from '@/components/idToken';
 
 
 export {
@@ -60,20 +62,8 @@ export function Icon(props: {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
-
-  const [storeToken, setStoreToken] = useState<string | null>(null)
-  const [storeId, setStoreId] = useState<string | null>(null)
-
-  useEffect(() => {
-    const idToken = async () => {
-      const token = await AsyncStorage.getItem('token')
-      setStoreToken(token || "No Token")
-
-      const id = await AsyncStorage.getItem('id')
-      setStoreId(id || "No Id")
-    }
-    idToken()
-  })
+  const [storeToken, setStoreToken] = useState<string | null>(idToken().storeId)
+  const [storeId, setStoreId] = useState<string | null>(idToken().storeId)
 
   const router = useRouter()
   const logout = async () => {
@@ -81,25 +71,32 @@ function RootLayoutNav() {
   }
 
   return (
-    <MyContext.Provider value={{ storeToken, storeId }}>
+    <MyContext.Provider value={{ storeToken: idToken().storeToken, storeId: idToken().storeId }}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack screenOptions={{
-          headerRight: () =>
-            <View style={{
-              display: "flex", flexDirection: "row", gap: 30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
-            }}>
-              <Link href={'/profile'} style={{ marginRight: 10 }}>
-                <Icon name='user' color={Colors[colorScheme ?? 'light'].text} />
-              </Link>
+          headerRight: () => (
+            (idToken().storeToken !== 'No Token') ?
+              <View style={{
+                display: "flex", flexDirection: "row", gap: 30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
+              }}>
+                <Link href={'/profile'} style={{ marginRight: 10 }}>
+                  <Icon name='user' color={Colors[colorScheme ?? 'light'].text} />
+                </Link>
 
-              <Text onPress={logout} >
+                <Text onPress={logout} >
                   <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text} />
-              </Text>
-              {/* <Icon name='sign-out' color={Colors[colorScheme ?? 'light'].text} /> */}
-            </View>
+                </Text>
+              </View>
+              :
+              <View style={{
+                display: "flex", flexDirection: "row", gap: 20, paddingRight: 10, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
+              }}>
+                <Button title='Sign In' onPress={() => router.push('/(auth)/sign-in')}></Button>
+                <Button title='Sign Up' onPress={() => router.push('/(auth)/sign-up')}></Button>
+              </View>
+          )
         }}>
           <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false, title: "Tabs" }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
         </Stack>
       </ThemeProvider >
