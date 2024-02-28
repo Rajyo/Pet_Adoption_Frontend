@@ -3,7 +3,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Link, Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
 import { Text, View } from '@/components/Themed';
@@ -20,7 +20,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'tabs',
+  initialRouteName: '',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -63,8 +63,9 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   const router = useRouter()
+  
   const logout = async () => {
-    await AsyncStorage.clear(); router.push('/(auth)/sign-in')
+    await AsyncStorage.clear(); router.navigate('/(auth)/sign-in')
   }
 
   return (
@@ -76,7 +77,7 @@ function RootLayoutNav() {
               <View style={{
                 display: "flex", flexDirection: "row", gap: 30, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
               }}>
-                <Link href={'/profile/'} style={{ marginRight: 10 }}>
+                <Link href={'/(components)/editProfile'} style={{ marginRight: 10 }}>
                   <Icon name='user' color={Colors[colorScheme ?? 'light'].text} />
                 </Link>
 
@@ -88,14 +89,15 @@ function RootLayoutNav() {
               <View style={{
                 display: "flex", flexDirection: "row", gap: 20, paddingRight: 10, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
               }}>
-                <Button title='Sign In' onPress={() => router.push('/(auth)/sign-in')}></Button>
-                <Button title='Sign Up' onPress={() => router.push('/(auth)/sign-up')}></Button>
+                <Button title='Sign In' onPress={() => router.replace('/(auth)/sign-in')}></Button>
+                <Button title='Sign Up' onPress={() => router.replace('/(auth)/sign-up')}></Button>
               </View>
           )
         }}>
-          <Stack.Screen name="profile/index" options={{ title:"Profile"}} />
-          <Stack.Screen name="modal" options={{ title: "Modal", presentation: 'modal' }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth" }} />
+          <Stack.Screen name="index" options={{ title: "Entry Home", gestureEnabled:false, }} />
+          <Stack.Screen name="(components)" options={{ headerShown:false, title: "Components" }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth", gestureEnabled:false }} />
+          <Stack.Screen name="(home)" options={{ headerShown: false, title: "Home"}} />
         </Stack>
       </ThemeProvider >
     </MyContext.Provider >

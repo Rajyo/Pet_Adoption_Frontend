@@ -1,15 +1,16 @@
 import { Text, View } from '@/components/Themed'
 import { MyContext } from '@/providers/storageProvider';
 import React, { useContext, useState } from 'react'
-import { ActivityIndicator, Alert, Image, StyleSheet, TextInput } from 'react-native';
+import { ActivityIndicator, Alert, Dimensions, Image, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { useEffect } from 'react';
 import axios from 'axios';
 import idToken from '@/components/getIdToken';
 import Colors from '@/constants/Colors';
 import Button from '@/components/Button';
+import { useColorScheme } from '@/components/useColorScheme.web';
 
 
-const Profile = () => {
+const EditProfile = () => {
   const { storeToken, storeId } = useContext(MyContext);
   const [isAdmin, setIsAdmin] = useState()
   const [email, setEmail] = useState('')
@@ -21,6 +22,9 @@ const Profile = () => {
 
   // console.log("storeToken", storeToken);
   // console.log("storeId", storeId);
+  //console.log(Dimensions.get('window').width);
+
+  const colorScheme = useColorScheme();
 
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
@@ -28,6 +32,7 @@ const Profile = () => {
 
   useEffect(() => {
     // @refresh reset
+    setLoading(true)
     const user = async () => {
       await axios.get('http://10.0.0.58:8000/api/user/', {
         headers: {
@@ -114,74 +119,84 @@ const Profile = () => {
 
 
   return (
-    <View style={styles.container}>
+    <ScrollView>
+      <View style={styles.container}>
 
-      <View style={{ display: "flex", alignItems: "center", marginVertical: 10 }}>
-        <Image source={require('../../assets/images/user.jpg')} style={styles.img} alt='cover'></Image>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
-          {
-            isAdmin ?
-              <>
-                <Text style={styles.isuser}>User</Text>
-                <Text style={styles.isadmin}>Admin</Text>
-              </>
-              :
-              <>
-                <Text style={styles.isadmin}>User</Text>
-                <Text style={styles.isuser}>Admin</Text>
-              </>
+        <View style={{ display: "flex", alignItems: "center" }}>
 
-          }
+          <Image source={require('../../assets/images/user.jpg')} resizeMode='cover' style={styles.img} alt='cover'></Image>
+
+          <View style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
+            {
+              isAdmin ?
+                <>
+                  <Text style={styles.isuser}>User</Text>
+                  <Text style={styles.isadmin}>Admin</Text>
+                </>
+                :
+                <>
+                  <Text style={styles.isadmin}>User</Text>
+                  <Text style={styles.isuser}>Admin</Text>
+                </>
+
+            }
+          </View>
+
         </View>
+
+        <View style={{ marginTop: 20 }}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            value={email}
+            onChangeText={setEmail}
+            style={styles.input}
+            editable={false}
+          />
+
+          <Text style={styles.label}>Username</Text>
+          <TextInput
+            value={updatedUsername}
+            onChangeText={setUpdatedUsername}
+            onChange={() => setUpdatedLoading(true)}
+            style={styles.input}
+            selectTextOnFocus={true}
+          />
+
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            value={updatedPassword}
+            onChangeText={setUpdatedPassword}
+            onChange={() => setUpdatedLoading(true)}
+            style={styles.input}
+            selectTextOnFocus={true}
+          />
+
+          <Button
+            onPress={updateInfo}
+            disabled={!updatedLoading}
+            text={loading ? 'Updating info...' : 'Update info'}
+          />
+        </View>
+
       </View>
-
-      <View>
-
-      </View>
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        style={styles.input}
-        aria-disabled
-      />
-
-      <Text style={styles.label}>Username</Text>
-      <TextInput
-        value={updatedUsername}
-        onChangeText={setUpdatedUsername}
-        onChange={() => setUpdatedLoading(true)}
-        style={styles.input}
-      />
-
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        value={updatedPassword}
-        onChangeText={setUpdatedPassword}
-        onChange={() => setUpdatedLoading(true)}
-        style={styles.input}
-        secureTextEntry
-      />
-
-      <Button
-        onPress={updateInfo}
-        disabled={!updatedLoading}
-        text={loading ? 'Updating info...' : 'Update info'}
-      />
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    minHeight: "100%"
+    padding: 30,
+    minHeight: Dimensions.get('window').height
   },
+
   img: {
-    width: 200,
-    height: 200,
-    borderRadius: 170,
+    width: (Dimensions.get('window').width) * 0.7,
+    height: (Dimensions.get('window').width) * 0.7,
+    borderRadius: (Dimensions.get('window').width) * 0.5,
+    borderWidth: 2.5,
+    borderColor: "cyan"
   },
+
   isuser: {
     backgroundColor: "blue",
     padding: 10,
@@ -191,6 +206,7 @@ const styles = StyleSheet.create({
     verticalAlign: "middle",
     opacity: 0.5
   },
+
   isadmin: {
     backgroundColor: "red",
     padding: 10,
@@ -200,10 +216,12 @@ const styles = StyleSheet.create({
     verticalAlign: "middle",
     fontWeight: "800"
   },
+
   label: {
     color: 'gray',
     fontSize: 14,
   },
+
   input: {
     borderWidth: 1,
     borderColor: 'gray',
@@ -213,6 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 5,
   },
+
   textButton: {
     alignSelf: 'center',
     fontWeight: 'bold',
@@ -222,5 +241,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile
+export default EditProfile
 
