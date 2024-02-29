@@ -8,17 +8,34 @@ import idToken from '@/components/getIdToken';
 import Colors from '@/constants/Colors';
 import Button from '@/components/Button';
 import { useColorScheme } from '@/components/useColorScheme.web';
+import { useLocalSearchParams } from 'expo-router';
 
 
 const EditProfile = () => {
   const { storeToken, storeId } = useContext(MyContext);
-  const [isAdmin, setIsAdmin] = useState()
+  const [isAdmin, setIsAdmin] = useState<string>('')
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [updatedUsername, setUpdatedUsername] = useState('')
   const [updatedPassword, setUpdatedPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [updatedLoading, setUpdatedLoading] = useState(false)
+
+  type editProfileProps = {
+    iA: string, 
+    uN: string, 
+    eM: string, 
+    uU: string
+  }
+
+  const {iA, uN, eM, uU}: editProfileProps = useLocalSearchParams()
+
+  useEffect(() => {
+    setIsAdmin(iA)
+    setUsername(uU)
+    setEmail(eM)
+    setUpdatedUsername(uU)
+  }, [])
 
   // console.log("storeToken", storeToken);
   // console.log("storeId", storeId);
@@ -30,35 +47,35 @@ const EditProfile = () => {
 
   loading && <ActivityIndicator />
 
-  useEffect(() => {
-    // @refresh reset
-    setLoading(true)
-    const user = async () => {
-      await axios.get('http://10.0.0.58:8000/api/user/', {
-        headers: {
-          Authorization: token
-            ? "Bearer " + token
-            : null,
-          "Content-Type": "application/json",
-          accept: "application/json",
-        },
-      })
-        .then(res => {
-          // console.log(res.data);
-          setIsAdmin(res.data.isAdmin)
-          setEmail(res.data.email)
-          setUsername(res.data.username)
-          setUpdatedUsername(res.data.username)
-          setLoading(false)
-        })
-        .catch((error: any) => {
-          console.log(error)
-          setLoading(false)
-        })
-    }
-    user()
+  // useEffect(() => {
+  //   // @refresh reset
+  //   setLoading(true)
+  //   const user = async () => {
+  //     await axios.get('http://10.0.0.58:8000/api/user/', {
+  //       headers: {
+  //         Authorization: token
+  //           ? "Bearer " + token
+  //           : null,
+  //         "Content-Type": "application/json",
+  //         accept: "application/json",
+  //       },
+  //     })
+  //       .then(res => {
+  //         // console.log(res.data);
+  //         setIsAdmin(res.data.isAdmin)
+  //         setEmail(res.data.email)
+  //         setUsername(res.data.username)
+  //         setUpdatedUsername(res.data.username)
+  //         setLoading(false)
+  //       })
+  //       .catch((error: any) => {
+  //         console.log(error)
+  //         setLoading(false)
+  //       })
+  //   }
+  //   user()
 
-  }, [token])
+  // }, [token])
 
 
 

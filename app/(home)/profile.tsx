@@ -25,9 +25,11 @@ const Profile = () => {
   const colorScheme = useColorScheme()
 
   const { storeToken, storeId } = useContext(MyContext);
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+  const [email, setEmail] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
+  const [updatedUsername, setUpdatedUsername] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   // console.log("storeToken", storeToken);
   // console.log("storeId", storeId);
@@ -51,9 +53,11 @@ const Profile = () => {
         },
       })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
+          setIsAdmin(res.data.isAdmin)
           setEmail(res.data.email)
           setUsername(res.data.username)
+          setUpdatedUsername(res.data.username)
           setLoading(false)
         })
         .catch((error: any) => {
@@ -79,7 +83,7 @@ const Profile = () => {
           </View>
         </View>
         <View style={{ marginVertical: "auto" }} >
-          <Link href={'/(components)/editProfile'} >
+          <Link href={{ pathname:'/(components)/editProfile', params: {iA: isAdmin.toString(), uN: username, eM: email, uU: updatedUsername}}} >
             <Icon name='edit' color={Colors[colorScheme ?? 'light'].icon} size={36} />
           </Link>
         </View>
