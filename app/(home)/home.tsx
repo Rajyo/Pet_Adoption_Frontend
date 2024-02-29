@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from '@/components/Themed'
 import React from 'react'
 
 const home = () => {
@@ -11,4 +11,3 @@ const home = () => {
 
 export default home
 
-const styles = StyleSheet.create({})

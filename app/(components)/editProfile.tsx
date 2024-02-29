@@ -8,7 +8,7 @@ import idToken from '@/components/getIdToken';
 import Colors from '@/constants/Colors';
 import Button from '@/components/Button';
 import { useColorScheme } from '@/components/useColorScheme.web';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 
 const EditProfile = () => {
@@ -77,6 +77,7 @@ const EditProfile = () => {
 
   // }, [token])
 
+  const router = useRouter()
 
 
   const updateInfo = async () => {
@@ -125,8 +126,10 @@ const EditProfile = () => {
         setUpdatedPassword('')
         // console.log(res.data)
         Alert.alert("User Updated")
-        setUsername(res.data.username)
+        // setUsername(res.data.username)
         setLoading(false)
+        router.push('/(home)/profile')
+        
       })
       .catch((error: any) => {
         console.log(error)

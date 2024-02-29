@@ -3,7 +3,7 @@ import React from 'react'
 
 const PetCare = () => {
   return (
-    <View>
+    <View style={{ minHeight: "100%" }}>
       <Text>PetCare</Text>
     </View>
   )

@@ -42,7 +42,7 @@ const SignInScreen = () => {
       setEmail('')
       setPassword('')
       // @refresh reset
-      router.push('/')
+      router.replace('/(home)/home')
     }).catch((error: any) => {
       // console.log(error.response.data);
       Alert.alert(error.response.data)

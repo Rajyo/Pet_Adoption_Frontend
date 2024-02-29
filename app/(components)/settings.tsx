@@ -3,7 +3,7 @@ import React from 'react'
 
 const Settings = () => {
   return (
-    <View>
+    <View style={{ minHeight: "100%" }}>
       <Text>Settings</Text>
     </View>
   )

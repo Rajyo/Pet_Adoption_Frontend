@@ -29,7 +29,7 @@ const RenderProfileData = ({ data }: renderProfileDataProps) => {
     const logout = async () => {
         if (data.link == "logout") {
             await AsyncStorage.clear();
-            router.navigate('/(auth)/sign-in')
+            router.replace('/(auth)/sign-in')
         }else{
             router.navigate(`/${data.link}`)
         }
@@ -42,7 +42,7 @@ const RenderProfileData = ({ data }: renderProfileDataProps) => {
                     <View style={{ width: 40, height: 30, justifyContent: "center", alignItems: "center" }}>
                         <Icon name={data.icon} color={Colors[colorScheme ?? 'light'].icon} size={25} />
                     </View>
-                    <Text style={{ marginVertical: "auto", color: "gray", fontSize: 17, fontWeight: "500" }}>{data.title}</Text>
+                    <Text style={{ marginTop: 3, color: "gray", fontSize: 17, fontWeight: "500" }}>{data.title}</Text>
                 </View>
             </Pressable>
         </>

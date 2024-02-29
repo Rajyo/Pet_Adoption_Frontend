@@ -3,7 +3,7 @@ import React from 'react'
 
 const AdoptionStatus = () => {
   return (
-    <View>
+    <View style={{ minHeight: "100%" }}>
       <Text>AdoptionStatus</Text>
     </View>
   )

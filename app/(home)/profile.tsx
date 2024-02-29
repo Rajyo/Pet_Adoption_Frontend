@@ -69,7 +69,6 @@ const Profile = () => {
 
   }, [token])
 
-  const router = useRouter()
 
   return (
     <View style={{ minHeight: "100%" }}>
@@ -82,19 +81,25 @@ const Profile = () => {
             <Text style={{ fontSize: 16, color: "gray", fontWeight: "700" }}>@{username}</Text>
           </View>
         </View>
-        <View style={{ marginVertical: "auto" }} >
-          <Link href={{ pathname:'/(components)/editProfile', params: {iA: isAdmin.toString(), uN: username, eM: email, uU: updatedUsername}}} >
-            <Icon name='edit' color={Colors[colorScheme ?? 'light'].icon} size={36} />
+        <View style={{ marginVertical: 10 }} >
+          <Link href={{ pathname: '/(components)/editProfile', params: { iA: isAdmin.toString(), uN: username, eM: email, uU: updatedUsername } }} >
+            <Icon name='edit' color={Colors[colorScheme ?? 'light'].icon} size={30} />
           </Link>
         </View>
       </View>
 
-      <hr style={{ width: '90%' }} />
+      <View
+        style={{
+          borderBottomColor: Colors[colorScheme ?? 'light'].text,
+          borderBottomWidth: 0.2,
+          margin: 20
+        }}
+      />
 
       <FlatList
         data={profileData}
         renderItem={({ item }) => <RenderProfileData data={item} />}
-        contentContainerStyle={{ gap: 40, marginTop: 30, paddingHorizontal: 20 }}
+        contentContainerStyle={{ gap: 40, marginTop: 10, paddingHorizontal: 20 }}
       />
 
 
