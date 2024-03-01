@@ -82,6 +82,7 @@ const SignUpScreen = () => {
 
     setLoading(true);
     await axios.post('http://10.0.0.58:8000/api/auth/register', {
+      name,
       username,
       email,
       password
@@ -105,7 +106,7 @@ const SignUpScreen = () => {
   return (
     <View style={styles.container}>
 
-      <View style={{ display: "flex", alignItems: "center", paddingBottom: 80, gap: 10 }}>
+      <View style={{ display: "flex", alignItems: "center", paddingBottom: 40, gap: 10 }}>
         <Icon name='paw' color='orange' />
         <Text style={{ color: "orange", fontSize: 25, fontWeight: "bold" }}>PAWSFORYOU</Text>
       </View>
@@ -114,6 +115,7 @@ const SignUpScreen = () => {
       <TextInput
         value={name}
         onChangeText={setName}
+        maxLength={10}
         placeholder=""
         style={styles.input}
       />
@@ -122,6 +124,7 @@ const SignUpScreen = () => {
       <TextInput
         value={username}
         onChangeText={setUsername}
+        maxLength={10}
         placeholder=""
         style={styles.input}
       />
@@ -130,6 +133,7 @@ const SignUpScreen = () => {
       <TextInput
         value={email}
         onChangeText={setEmail}
+        maxLength={20}
         placeholder=""
         style={styles.input}
       />
@@ -139,8 +143,8 @@ const SignUpScreen = () => {
         value={password}
         onChangeText={setPassword}
         placeholder=""
+        maxLength={10}
         style={styles.input}
-        secureTextEntry
       />
 
       <Button

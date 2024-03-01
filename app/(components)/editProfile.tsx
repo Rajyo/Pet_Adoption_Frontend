@@ -171,14 +171,14 @@ const EditProfile = () => {
           <Text style={styles.label}>Email</Text>
           <TextInput
             value={email}
-            style={[styles.input, { backgroundColor: "#ded4d4" }]}
+            style={[styles.input, { backgroundColor: "#ded4d4", color: "black", opacity: 0.8 }]}
             editable={false}
           />
 
           <Text style={styles.label}>Username</Text>
           <TextInput
             value={username}
-            style={[styles.input, { backgroundColor: "#ded4d4" }]}
+            style={[styles.input, { backgroundColor: "#ded4d4", color: "black", opacity: 0.8 }]}
             editable={false}
           />
 
