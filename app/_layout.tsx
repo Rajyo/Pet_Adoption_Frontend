@@ -62,30 +62,11 @@ export function Icon(props: {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
-  const router = useRouter()
-
-
   return (
     <MyContext.Provider value={{ storeToken: idToken().storeToken, storeId: idToken().storeId }}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack screenOptions={{
-          // headerRight: () => (
-          //   (idToken().storeToken !== 'No Token') ?
-          //     <View style={{ backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)' }}>
-          //       <Link href={'/(home)/home'} style={{ marginRight: 10 }}>
-          //         <Icon name='home' color={Colors[colorScheme ?? 'light'].text} />
-          //       </Link>
-          //     </View>
-          //     :
-          //     <View style={{
-          //       display: "flex", flexDirection: "row", gap: 20, paddingRight: 10, backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)'
-          //     }}>
-          //       <Button title='Sign In' onPress={() => router.replace('/(auth)/sign-in')}></Button>
-          //       <Button title='Sign Up' onPress={() => router.replace('/(auth)/sign-up')}></Button>
-          //     </View>
-          // )
-        }}>
-          <Stack.Screen name="index" options={{ title: "Home", gestureEnabled: false, }} />
+        <Stack>
+          <Stack.Screen name="index" options={{ title: "PAWSFORYOU", gestureEnabled: false, headerTitleStyle: {color: "orange", fontSize: 22, fontWeight: "700"}, headerRight: () => <Link style={{marginRight: 20, fontSize: 16, color: "gray", fontWeight: "600"}} href={'/(auth)/sign-in'}>Skip</Link> }} />
           <Stack.Screen name="(components)" options={{ headerShown: false, title: "Components" }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth", gestureEnabled: false }} />
           <Stack.Screen name="(home)" options={{ headerShown: false, title: "Start", gestureEnabled: false }} />
