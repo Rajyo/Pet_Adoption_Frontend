@@ -1,10 +1,12 @@
 import { TextInput, StyleSheet, Alert } from 'react-native';
-import {View, Text} from "@/components/Themed"
+import { View, Text } from "@/components/Themed"
 import React, { useState } from 'react';
 import Button from '../../components/Button';
 import Colors from '../../constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Icon } from '../_layout';
 
 
 const SignUpScreen = () => {
@@ -32,6 +34,12 @@ const SignUpScreen = () => {
       }
     }
 
+    if (username.match(/\b\w/g)?.toString() !== username.match(/\b\w/g)?.toString().toLowerCase()) {
+      Alert.alert("First letter of username should be small")
+      return
+    }
+
+
     if (email == '') {
       Alert.alert("Please enter Email")
       return
@@ -43,6 +51,12 @@ const SignUpScreen = () => {
         return
       }
     }
+
+    if (email.match(/\b\w/g)?.toString() !== email.match(/\b\w/g)?.toString().toLowerCase()) {
+      alert("First letter of email should be small")
+      return
+    }
+
 
     if (password == '') {
       Alert.alert("Please enter Password")
@@ -62,10 +76,12 @@ const SignUpScreen = () => {
       password
     }).then(async (res: any) => {
       // console.log(res.data);
+      await AsyncStorage.setItem('id', res.data._id)
+      await AsyncStorage.setItem('token', res.data.token)
       setUsername('')
       setEmail('')
       setPassword('')
-      router.push('/(auth)/sign-in')
+      router.replace('/(home)/home')
     }).catch((error: any) => {
       Alert.alert(error.response.data)
       setUsername('')
@@ -77,6 +93,11 @@ const SignUpScreen = () => {
 
   return (
     <View style={styles.container}>
+
+      <View style={{ display: "flex", alignItems: "center", paddingBottom: 80, gap: 10 }}>
+        <Icon name='paw' color='orange' />
+        <Text style={{ color: "orange", fontSize: 25, fontWeight: "bold" }}>PAWSFORYOU</Text>
+      </View>
 
       <Text style={styles.label}>Username</Text>
       <TextInput
@@ -111,6 +132,7 @@ const SignUpScreen = () => {
       <Link href="/(auth)/sign-in" style={styles.textButton}>
         Sign in
       </Link>
+
     </View>
   );
 };

@@ -1,11 +1,12 @@
 import { TextInput, StyleSheet, Alert } from 'react-native';
-import {View, Text} from "@/components/Themed"
+import { View, Text } from "@/components/Themed"
 import React, { useContext, useState } from 'react';
 import Button from '../../components/Button';
 import Colors from '../../constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Icon } from '../_layout';
 
 
 const SignInScreen = () => {
@@ -55,8 +56,14 @@ const SignInScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
 
+    <View style={styles.container}>
+      
+      <View style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: 60, gap:10}}>
+        <Icon name='paw' color='orange' />
+        <Text style={{ color: "orange", fontSize: 25, fontWeight: "bold" }}>PAWSFORYOU</Text>
+      </View>
+      
       <Text style={styles.label}>Email</Text>
       <TextInput
         value={email}
