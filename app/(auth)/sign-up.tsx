@@ -10,6 +10,7 @@ import { Icon } from '../_layout';
 
 
 const SignUpScreen = () => {
+  const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,11 +20,21 @@ const SignUpScreen = () => {
 
   async function signUpWithEmail() {
 
-    if (email == '' && password == '' && username == '') {
-      Alert.alert("Please enter Email and Password and Username")
+    if (email == '' && password == '' && username == '' && name == '') {
+      Alert.alert("Please enter Email, Password, Username and Name")
       return
     }
 
+    if (name == '') {
+      Alert.alert("Please enter Name")
+      return
+    } else {
+      if (name.length < 3) {
+        Alert.alert("Please enter Name more than 3 letters")
+        return
+      }
+    }
+    
     if (username == '') {
       Alert.alert("Please enter Username")
       return
@@ -99,6 +110,14 @@ const SignUpScreen = () => {
         <Text style={{ color: "orange", fontSize: 25, fontWeight: "bold" }}>PAWSFORYOU</Text>
       </View>
 
+      <Text style={styles.label}>Name</Text>
+      <TextInput
+        value={name}
+        onChangeText={setName}
+        placeholder=""
+        style={styles.input}
+      />
+      
       <Text style={styles.label}>Username</Text>
       <TextInput
         value={username}

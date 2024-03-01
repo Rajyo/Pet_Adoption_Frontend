@@ -26,9 +26,10 @@ const Profile = () => {
 
   const { storeToken, storeId } = useContext(MyContext);
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
-  const [email, setEmail] = useState<string>('')
   const [username, setUsername] = useState<string>('')
-  const [updatedUsername, setUpdatedUsername] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [updatedName, setUpdatedName] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
 
   // console.log("storeToken", storeToken);
@@ -55,9 +56,10 @@ const Profile = () => {
         .then(res => {
           // console.log(res.data);
           setIsAdmin(res.data.isAdmin)
-          setEmail(res.data.email)
           setUsername(res.data.username)
-          setUpdatedUsername(res.data.username)
+          setName(res.data.name)
+          setEmail(res.data.email)
+          setUpdatedName(res.data.name)
           setLoading(false)
         })
         .catch((error: any) => {
@@ -77,12 +79,12 @@ const Profile = () => {
         <View style={{ display: "flex", flexDirection: "row" }}>
           <Image source={require('../../assets/images/user.jpg')} style={{ width: 70, height: 70, borderRadius: 50 }} />
           <View style={{ marginVertical: "auto", marginLeft: 20, gap: 10 }}>
-            <Text style={{ fontSize: 18, fontWeight: "700" }}>{email}</Text>
+            <Text style={{ fontSize: 18, fontWeight: "700" }}>{name}</Text>
             <Text style={{ fontSize: 16, color: "gray", fontWeight: "700" }}>@{username}</Text>
           </View>
         </View>
         <View style={{ marginVertical: 10 }} >
-          <Link href={{ pathname: '/(components)/editProfile', params: { iA: isAdmin.toString(), uN: username, eM: email, uU: updatedUsername } }} >
+          <Link href={{ pathname: '/(components)/editProfile', params: { iA: isAdmin.toString(), un: username, eM: email, nm: name, uN: updatedName } }} >
             <Icon name='edit' color={Colors[colorScheme ?? 'light'].icon} size={30} />
           </Link>
         </View>

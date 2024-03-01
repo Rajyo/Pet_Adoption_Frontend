@@ -16,25 +16,28 @@ const EditProfile = () => {
   const [isAdmin, setIsAdmin] = useState<string>('')
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
-  const [updatedUsername, setUpdatedUsername] = useState('')
+  const [name, setName] = useState('')
+  const [updatedName, setUpdatedName] = useState('')
   const [updatedPassword, setUpdatedPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [updatedLoading, setUpdatedLoading] = useState(false)
 
   type editProfileProps = {
-    iA: string, 
-    uN: string, 
-    eM: string, 
-    uU: string
+    iA: string,
+    un: string,
+    eM: string,
+    nm: string,
+    uN: string
   }
 
-  const {iA, uN, eM, uU}: editProfileProps = useLocalSearchParams()
+  const { iA, un, eM, nm, uN }: editProfileProps = useLocalSearchParams()
 
   useEffect(() => {
     setIsAdmin(iA)
-    setUsername(uU)
+    setUsername(un)
     setEmail(eM)
-    setUpdatedUsername(uU)
+    setName(nm)
+    setUpdatedName(uN)
   }, [])
 
   // console.log("storeToken", storeToken);
@@ -84,20 +87,20 @@ const EditProfile = () => {
     setLoading(true)
 
     type user = {
-      username: string
+      name: string
       password: string
     }
 
-    const updatedUser: user = { username, password: updatedPassword }
+    const updatedUser: user = { name, password: updatedPassword }
 
-    if (updatedUsername == '') {
-      Alert.alert("Username cannot be empty")
+    if (updatedName == '') {
+      Alert.alert("Name cannot be empty")
       setLoading(false)
       return
     }
 
-    if (updatedUsername !== username) {
-      updatedUser['username'] = updatedUsername
+    if (updatedName !== name) {
+      updatedUser['name'] = updatedName
     }
 
     if (updatedPassword !== null && updatedPassword !== '') {
@@ -122,14 +125,14 @@ const EditProfile = () => {
       },
     })
       .then(res => {
-        setUsername('')
+        setName('')
         setUpdatedPassword('')
         // console.log(res.data)
         Alert.alert("User Updated")
         // setUsername(res.data.username)
         setLoading(false)
         router.push('/(home)/profile')
-        
+
       })
       .catch((error: any) => {
         console.log(error)
@@ -168,18 +171,23 @@ const EditProfile = () => {
           <Text style={styles.label}>Email</Text>
           <TextInput
             value={email}
-            onChangeText={setEmail}
-            style={styles.input}
+            style={[styles.input, { backgroundColor: "#ded4d4" }]}
             editable={false}
           />
 
           <Text style={styles.label}>Username</Text>
           <TextInput
-            value={updatedUsername}
-            onChangeText={setUpdatedUsername}
+            value={username}
+            style={[styles.input, { backgroundColor: "#ded4d4" }]}
+            editable={false}
+          />
+
+          <Text style={styles.label}>Name</Text>
+          <TextInput
+            value={updatedName}
+            onChangeText={setUpdatedName}
             onChange={() => setUpdatedLoading(true)}
             style={styles.input}
-            selectTextOnFocus={true}
           />
 
           <Text style={styles.label}>Password</Text>
@@ -188,7 +196,6 @@ const EditProfile = () => {
             onChangeText={setUpdatedPassword}
             onChange={() => setUpdatedLoading(true)}
             style={styles.input}
-            selectTextOnFocus={true}
           />
 
           <Button

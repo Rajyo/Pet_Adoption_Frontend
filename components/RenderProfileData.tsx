@@ -30,7 +30,7 @@ const RenderProfileData = ({ data }: renderProfileDataProps) => {
         if (data.link == "logout") {
             await AsyncStorage.clear();
             router.replace('/(auth)/sign-in')
-        }else{
+        } else {
             router.navigate(`/${data.link}`)
         }
     }
