@@ -5,11 +5,7 @@ import { Link, Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useEffect } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
-import Colors from '@/constants/Colors';
-import { Text, View } from '@/components/Themed';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MyContext } from '@/providers/storageProvider';
-import { Button } from 'react-native';
 import idToken from '@/components/getIdToken';
 
 

@@ -1,8 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Link, useRouter } from "expo-router"
 import { Pressable, useColorScheme } from "react-native"
-import { Text, View } from "./Themed"
-import Colors from "@/constants/Colors"
+import { Text, View } from "../../components/Themed"
 import { FontAwesome } from "@expo/vector-icons"
 
 function Icon(props: {
@@ -23,7 +22,6 @@ type renderProfileDataProps = {
 }
 
 const RenderProfileData = ({ data }: renderProfileDataProps) => {
-    const colorScheme = useColorScheme()
     const router = useRouter()
 
     const logout = async () => {
@@ -38,11 +36,11 @@ const RenderProfileData = ({ data }: renderProfileDataProps) => {
     return (
         <>
             <Pressable onPress={logout}>
-                <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
+                <View style={{ display: "flex", flexDirection: "row", gap: 20, alignItems:"center" }}>
                     <View style={{ width: 40, height: 30, justifyContent: "center", alignItems: "center" }}>
-                        <Icon name={data.icon} color={Colors[colorScheme ?? 'light'].icon} size={25} />
+                        <Icon name={data.icon} color="#fdaa48" size={22} />
                     </View>
-                    <Text style={{ marginTop: 3, color: "gray", fontSize: 17, fontWeight: "500" }}>{data.title}</Text>
+                    <Text style={{ opacity: 0.7, fontSize: 17, fontWeight: "500"}}>{data.title}</Text>
                 </View>
             </Pressable>
         </>

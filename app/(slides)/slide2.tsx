@@ -20,7 +20,7 @@ const Slide2 = () => {
       </View>
 
       <TouchableOpacity style={{ marginRight: 20, marginTop: 100, width: 80, alignItems: "center", position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between", alignSelf: "flex-end" }} onPress={() => router.push('/(slides)/slide3')}>
-        <Text style={{ backgroundColor: "blue", color: "white", paddingVertical: 8, paddingHorizontal: 20, borderRadius: 10, fontSize: 18, fontWeight: "600" }}>Next</Text>
+        <Text style={{ backgroundColor: "#fd6100", color: "white", paddingVertical: 8, paddingHorizontal: 20, borderRadius: 10, fontSize: 18, fontWeight: "600" }}>Next</Text>
       </TouchableOpacity>
 
     </View>

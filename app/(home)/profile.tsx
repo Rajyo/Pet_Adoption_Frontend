@@ -6,7 +6,7 @@ import { useColorScheme } from '@/components/useColorScheme'
 import { profileData } from '@/lib/profileData'
 import { FontAwesome } from '@expo/vector-icons'
 import { Link, useRouter } from 'expo-router'
-import RenderProfileData from '@/components/RenderProfileData'
+import RenderProfileData from '@/app/(components)/RenderProfileData'
 import idToken from '@/components/getIdToken'
 import { MyContext } from '@/providers/storageProvider'
 import axios from 'axios'
@@ -80,12 +80,12 @@ const Profile = () => {
           <Image source={require('../../assets/images/user.jpg')} style={{ width: 70, height: 70, borderRadius: 50 }} />
           <View style={{ marginVertical: "auto", marginLeft: 20, gap: 10 }}>
             <Text style={{ fontSize: 18, fontWeight: "700" }}>{name}</Text>
-            <Text style={{ fontSize: 16, color: "gray", fontWeight: "700" }}>@{username}</Text>
+            <Text style={{ fontSize: 17, opacity: 0.5, fontWeight: "700" }}>@{username}</Text>
           </View>
         </View>
         <View style={{ marginVertical: 10 }} >
           <Link href={{ pathname: '/(components)/editProfile', params: { iA: isAdmin.toString(), un: username, eM: email, nm: name, uN: updatedName } }} >
-            <Icon name='edit' color={Colors[colorScheme ?? 'light'].icon} size={30} />
+            <Icon name='edit' color="#fdaa48" size={30} />
           </Link>
         </View>
       </View>
@@ -101,7 +101,7 @@ const Profile = () => {
       <FlatList
         data={profileData}
         renderItem={({ item }) => <RenderProfileData data={item} />}
-        contentContainerStyle={{ gap: 40, marginTop: 10, paddingHorizontal: 20 }}
+        contentContainerStyle={{ gap: 45, marginTop: 10, paddingHorizontal: 20 }}
       />
 
 

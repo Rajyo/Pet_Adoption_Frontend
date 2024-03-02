@@ -107,8 +107,8 @@ const SignUpScreen = () => {
     <View style={styles.container}>
 
       <View style={{ display: "flex", alignItems: "center", paddingBottom: 40, gap: 10 }}>
-        <Icon name='paw' color='orange' />
-        <Text style={{ color: "orange", fontSize: 25, fontWeight: "bold" }}>PAWSFORYOU</Text>
+        <Icon name='paw' color='#fd6100' />
+        <Text style={{ color: "#fd6100", fontSize: 25, fontWeight: "bold" }}>PAWSFORYOU</Text>
       </View>
 
       <Text style={styles.label}>Name</Text>

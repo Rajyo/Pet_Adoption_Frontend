@@ -24,7 +24,7 @@ const Slide3 = () => {
       </Link> */}
 
       <TouchableOpacity style={{ marginRight: 20, marginTop: 100, width: 150, alignItems: "center", position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between", alignSelf: "flex-end" }} onPress={() => router.push('/(auth)/sign-in') } >
-        <Text style={{ backgroundColor: "blue", color: "white", paddingVertical: 8, paddingHorizontal: 20, borderRadius: 10, fontSize: 18, fontWeight: "600" }}>Get Started</Text>
+        <Text style={{ backgroundColor: "#fd6100", color: "white", paddingVertical: 8, paddingHorizontal: 20, borderRadius: 10, fontSize: 18, fontWeight: "600" }}>Get Started</Text>
       </TouchableOpacity>
 
 
