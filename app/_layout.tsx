@@ -65,7 +65,7 @@ function RootLayoutNav() {
           <Stack.Screen name="index" options={{ title: "PAWSFORYOU", gestureEnabled: false, headerTitleStyle: {color: "orange", fontSize: 22, fontWeight: "700"}, headerRight: () => <Link style={{marginRight: 20, fontSize: 16, color: "gray", fontWeight: "600"}} href={'/(auth)/sign-in'}>Skip</Link> }} />
           <Stack.Screen name="(components)" options={{ headerShown: false, title: "Components" }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false, title: "Auth", gestureEnabled: false }} />
-          <Stack.Screen name="(home)" options={{ headerShown: false, title: "Start", gestureEnabled: false }} />
+          <Stack.Screen name="(main)" options={{ headerShown: false, title: "Main", gestureEnabled: false }} />
           <Stack.Screen name="(slides)" options={{ headerShown: false, title: "Slides" }} />
         </Stack>
       </ThemeProvider >

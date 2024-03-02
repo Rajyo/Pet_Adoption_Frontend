@@ -1,3 +1,4 @@
+import { useColorScheme } from '@/components/useColorScheme.web';
 import { FontAwesome } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
@@ -18,12 +19,13 @@ function Icon(props: {
 }
 
 export default function HomeLayout() {
+  const colorScheme = useColorScheme()
 
   return (
     <Tabs>
 
 
-      <Tabs.Screen name='home' options={{ title: "Title", headerTitle: "PAWSFORYOU", headerTitleStyle: { color: "#fd6100", fontSize: 22, fontWeight: "700" }, headerRight: () => <Icon name="bell-o" color="black" size={23}/>, headerRightContainerStyle: { paddingRight: 10 }, tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />, tabBarActiveTintColor: "#fd6100", }} />
+      <Tabs.Screen name='home' options={{ title: "Title", headerTitle: "PAWSFORYOU", headerTitleStyle: { color: "#fd6100", fontSize: 22, fontWeight: "700" }, headerRight: () => <Icon name="bell-o" color={colorScheme == "light" ? "black" : "white"} size={23} />, headerRightContainerStyle: { paddingRight: 10 }, tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />, tabBarActiveTintColor: "#fd6100", }} />
 
       <Tabs.Screen name='explore' options={{ title: "Explore", headerTitle: "PAWSFORYOU", headerTitleStyle: { color: "#fd6100", fontSize: 22, fontWeight: "700" }, tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />, tabBarActiveTintColor: "#fd6100", }} />
 

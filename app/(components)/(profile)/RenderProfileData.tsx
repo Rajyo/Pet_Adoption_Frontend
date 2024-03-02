@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Link, useRouter } from "expo-router"
 import { Pressable, useColorScheme } from "react-native"
-import { Text, View } from "../../components/Themed"
+import { Text, View } from "../../../components/Themed"
 import { FontAwesome } from "@expo/vector-icons"
 
 function Icon(props: {

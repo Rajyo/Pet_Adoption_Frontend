@@ -131,7 +131,7 @@ const EditProfile = () => {
         Alert.alert("User Updated")
         // setUsername(res.data.username)
         setLoading(false)
-        router.push('/(home)/profile')
+        router.push('/(main)/profile')
 
       })
       .catch((error: any) => {
@@ -147,7 +147,7 @@ const EditProfile = () => {
 
         <View style={{ display: "flex", alignItems: "center" }}>
 
-          <Image source={require('../../assets/images/user.jpg')} resizeMode='cover' style={styles.img} alt='cover'></Image>
+          <Image source={require('../../../assets/images/user.jpg')} resizeMode='cover' style={styles.img} alt='cover'></Image>
 
           <View style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
             {

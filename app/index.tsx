@@ -14,7 +14,7 @@ const Home = () => {
         <View style={{ minHeight: "100%" }}>
             <StatusBar animated={true} backgroundColor='gray' />
             {
-                (finalToken[0] == undefined || finalToken[0] == null || finalToken[0] == 'No Token') ? <Entry /> : <Redirect href={'/(home)/home'} />
+                (finalToken[0] == undefined || finalToken[0] == null || finalToken[0] == 'No Token') ? <Entry /> : <Redirect href={'/(main)/home'} />
             }
         </View>
     )
