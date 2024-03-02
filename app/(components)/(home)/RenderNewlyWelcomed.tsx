@@ -21,9 +21,9 @@ const RenderNewlyWelcomed = ({ data }: renderNewlyWelcomedProps) => {
 
             <Image source={data.pic} style={{ width: 135, height: 125, opacity: 0.9, objectFit:"cover" }} />
             <View style={{ position: "absolute", zIndex: 50, paddingHorizontal:2, }}>
-                <Text style={{ top: 80, color: "white", fontWeight: "bold", fontSize: 15 }}>{data.name}</Text>
-                <Text style={{ top: 60, left: 100, color: "white", fontSize: 13, fontWeight: "bold" }}>{data.week}</Text>
-                <Text style={{ top: 65, color: "white", fontSize: 13, fontWeight: "bold" }}>{data.breed}</Text>
+                <Text style={{ top: 80, left: 4, color: "white", fontWeight: "bold", fontSize: 15 }}>{data.name}</Text>
+                <Text style={{ top: 62, left: 108, color: "white", fontSize: 13, fontWeight: "bold" }}>{data.week}</Text>
+                <Text style={{ top: 65, left: 4,color: "white", fontSize: 12, fontWeight: "bold", marginTop: 2 }}>{data.breed}</Text>
             </View>
 
         </View>
