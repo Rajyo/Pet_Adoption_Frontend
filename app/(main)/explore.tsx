@@ -1,4 +1,4 @@
-import { Text } from '@/components/Themed'
+import { Text, useThemeColor } from '@/components/Themed'
 import { newlyWelcomedData } from '@/lib/newlyWelcomedData'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, Image, ImageSourcePropType, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -55,7 +55,7 @@ const Explore = () => {
   // console.log(items);
 
   return (
-    <ScrollView style={{ minHeight: "100%"}} contentContainerStyle={{width: Dimensions.get('window').width * 0.9, alignSelf:"center"}}>
+    <ScrollView style={{ minHeight: "100%", backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} contentContainerStyle={{ width: Dimensions.get('window').width * 0.9, alignSelf: "center" }}>
       <Text style={{ marginTop: 10, marginBottom: 20, fontSize: 25, fontWeight: "bold" }}>Categories</Text>
 
       <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
@@ -75,9 +75,9 @@ const Explore = () => {
 
               <Image source={data.pic} style={{ width: 150, height: 125, opacity: 0.9, objectFit: "cover" }} />
               <View style={{ position: "absolute", zIndex: 50, paddingHorizontal: 2, }}>
-                <Text style={{ top: 80, left:4, color: "white", fontWeight: "bold", fontSize: 16 }}>{data.name}</Text>
+                <Text style={{ top: 80, left: 4, color: "white", fontWeight: "bold", fontSize: 16 }}>{data.name}</Text>
                 <Text style={{ top: 62, left: 125, color: "white", fontSize: 13, fontWeight: "bold" }}>{data.week}</Text>
-                <Text style={{ top: 65, left:4, color: "white", fontSize: 13, fontWeight: "bold" }}>{data.breed}</Text>
+                <Text style={{ top: 65, left: 4, color: "white", fontSize: 13, fontWeight: "bold" }}>{data.breed}</Text>
               </View>
 
             </View>

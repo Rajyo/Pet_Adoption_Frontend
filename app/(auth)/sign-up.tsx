@@ -93,7 +93,7 @@ const SignUpScreen = () => {
       setUsername('')
       setEmail('')
       setPassword('')
-      router.replace('/(home)/home')
+      router.replace('/(main)/home')
     }).catch((error: any) => {
       Alert.alert(error.response.data)
       setUsername('')

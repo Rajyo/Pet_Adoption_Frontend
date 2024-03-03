@@ -84,7 +84,7 @@ const Profile = () => {
           </View>
         </View>
         <View style={{ marginVertical: 10 }} >
-          <Link href={{ pathname: '/(components)/editProfile', params: { iA: isAdmin.toString(), un: username, eM: email, nm: name, uN: updatedName } }} >
+          <Link href={{ pathname: '/(components)/(profile)/editProfile', params: { iA: isAdmin.toString(), un: username, eM: email, nm: name, uN: updatedName } }} >
             <Icon name='edit' color="#fdaa48" size={30} />
           </Link>
         </View>
