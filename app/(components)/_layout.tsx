@@ -16,6 +16,9 @@ export default function RootLayoutNav() {
             
             <Stack.Screen name="(explore)/FilterComponent" options={{ title: "Filters", headerRight: () => <Text style={{paddingRight:20, fontWeight:"bold", color:"orange", opacity: 0.85}}>Clear All</Text>}} />
             <Stack.Screen name="(explore)/SearchComponent" options={{ title: "Search", headerRight: () => <Text style={{paddingRight:20, fontWeight:"bold", color:"orange",}}>Clear All</Text>}} />
+            <Stack.Screen name="(explore)/FilterResult" options={{ title: 'Search', headerTitleAlign: "center" }} />
+            <Stack.Screen name="(explore)/PetProfile" options={{ title: "", headerTransparent: true}} />
+            <Stack.Screen name="(explore)/PetAdopt" options={{ title: ""}} />
         
         </Stack>
     );
