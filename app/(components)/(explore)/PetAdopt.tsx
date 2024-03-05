@@ -2,7 +2,7 @@ import { View, Text, useThemeColor } from '@/components/Themed'
 import { FontAwesome } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
-import { Alert, Dimensions, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native'
+import { Alert, Dimensions, Image, ImageSourcePropType, ScrollView, TextInput, TouchableOpacity } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select';
 
 
@@ -14,10 +14,17 @@ function Icon(props: {
   return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
 }
 
+type PetAdoptType = {
+  ageInWeeks: number
+  breed: string
+  gender: string
+  name: string
+  pic: ImageSourcePropType | undefined
+}
 
 const PetAdopt = () => {
-  const { name, breed, gender, age, pic } = useLocalSearchParams()
-
+  const { name, breed, gender, ageInWeeks, pic } = useLocalSearchParams<any>()
+  
   const [dateTime, setDateTime] = useState<string>('')
   const [fullName, setFullName] = useState<string>('')
   const [phoneNumber, setPhoneNumber] = useState<string>('')
@@ -54,10 +61,10 @@ const PetAdopt = () => {
             <View style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center" }}>
               <Text style={{ color: "gray", fontWeight: "600", fontSize: 15 }}>{gender}</Text>
               <Icon name='circle' color='gray' size={5}></Icon>
-              <Text style={{ color: "gray", fontWeight: "600", fontSize: 15 }}>{age}</Text>
+              <Text style={{ color: "gray", fontWeight: "600", fontSize: 15 }}>{Number(ageInWeeks)} weeks old</Text>
             </View>
           </View>
-          <Image source={require('../../../assets/images/dog2.jpg')} style={{ width: 100, height: 100, borderRadius: 10 }} />
+          <Image source={pic} style={{ width: 100, height: 100, borderRadius: 10 }} />
         </View>
 
         <View style={{ borderBottomColor: "#cccccc", borderBottomWidth: 0.2, marginVertical: 25 }} />

@@ -2,7 +2,7 @@ import { Text, View, useThemeColor } from '@/components/Themed'
 import { upcomingVisitsData } from '@/lib/upcomingVisitsData';
 import { FontAwesome } from '@expo/vector-icons';
 import React, { useContext, useEffect, useState } from 'react'
-import { ActivityIndicator, Image, ScrollView } from 'react-native';
+import { ActivityIndicator, Image, ImageSourcePropType, ScrollView } from 'react-native';
 import RenderUpcomingVisits from '../(components)/(home)/RenderUpcomingVisits';
 import { newlyWelcomedData } from '@/lib/newlyWelcomedData';
 import RenderNewlyWelcomed from '../(components)/(home)/RenderNewlyWelcomed';
@@ -20,11 +20,24 @@ function Icon(props: {
   return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
 }
 
+type HomeDataType = {
+  _id: string
+  ageInWeeks: number
+  breed: string
+  gender: string
+  location: string
+  name: string
+  petBehaviour: string
+  pic: ImageSourcePropType | undefined
+  typeOfPet: string
+  dateTime: string
+  petInfo: string[]
+}
 
 const Main = () => {
   const { storeToken, storeId } = useContext(MyContext);
   const [loading, setLoading] = useState<boolean>(false)
-  const [data, setData] = useState<any>(null)
+  const [data, setData] = useState<HomeDataType[]>([])
 
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
@@ -73,7 +86,7 @@ const Main = () => {
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: -5 }}>
           {
-            data && data?.map((item: any) => (
+            data && data?.map((item: HomeDataType) => (
               <RenderUpcomingVisits key={item._id} data={item} />
             ))
           }
@@ -89,7 +102,7 @@ const Main = () => {
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: -5 }}>
           {
-            data && data?.map((item: any) => (
+            data && data?.map((item: HomeDataType) => (
               <RenderNewlyWelcomed key={item._id} data={item} />
             ))
           }

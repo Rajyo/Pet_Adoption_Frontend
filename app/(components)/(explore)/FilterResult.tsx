@@ -36,6 +36,7 @@ function Icon(props: {
     return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
 }
 
+
 var filteredArray: finalDataType[];
 
 const FilterResult = () => {
@@ -116,7 +117,8 @@ const FilterResult = () => {
                 genderFilteredItems.add(item)
             }
         })
-        genderFilteredItems.size > 0 && (finalFilteedItems = finalFilteedItems.intersection(genderFilteredItems))
+        //genderFilteredItems.size > 0 && (finalFilteedItems = finalFilteedItems.intersection(genderFilteredItems))
+        genderFilteredItems.size > 0 && (finalFilteedItems = new Set([...finalFilteedItems].filter(x => genderFilteredItems.has(x))))
 
 
         const ageFilteredItems = new Set<finalDataType>()
@@ -125,8 +127,8 @@ const FilterResult = () => {
                 ageFilteredItems.add(item)
             }
         })
-        age.length > 0 && ageFilteredItems.size == 0 && (finalFilteedItems = finalFilteedItems.intersection(ageFilteredItems))
-        ageFilteredItems.size > 0 && (finalFilteedItems = finalFilteedItems.intersection(ageFilteredItems))
+        age.length > 0 && ageFilteredItems.size == 0 && (finalFilteedItems = new Set([...finalFilteedItems].filter(x => ageFilteredItems.has(x))))
+        ageFilteredItems.size > 0 && (finalFilteedItems = new Set([...finalFilteedItems].filter(x => ageFilteredItems.has(x))))
 
 
         const breedFilteredItems = new Set<finalDataType>()
@@ -135,7 +137,7 @@ const FilterResult = () => {
                 breedFilteredItems.add(item)
             }
         })
-        breedFilteredItems.size > 0 && (finalFilteedItems = finalFilteedItems.intersection(breedFilteredItems))
+        breedFilteredItems.size > 0 && (finalFilteedItems = new Set([...finalFilteedItems].filter(x => breedFilteredItems.has(x))))
 
 
         filteredArray = Array.from(finalFilteedItems)
@@ -165,9 +167,12 @@ const FilterResult = () => {
 
             <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 35, marginVertical: 30 }}>
                 {
-                    filteredArray?.length == 0 ? <Text>Nothing to Show</Text> :
+                    filteredArray?.length == 0 ? <View style={{display:"flex", alignItems:"center", width:"100%", gap: 50, paddingVertical: 40, }}>
+                        <Text style={{textAlign:"center", fontSize:20, fontWeight: "bold", textTransform:'uppercase', color:"red"}}>There are no matches for your search criteria.</Text>
+                        <Text style={{textAlign:"center", fontSize:20, fontWeight: "bold", textTransform:'uppercase', color:"red"}}>Please consider adjusting your filters.</Text>
+                    </View> :
                         filteredArray?.map((data: finalDataType) => (
-                            <Link key={data._id} href={{ pathname: '/(components)/(explore)/PetProfile', params: { id: data._id, age: data.ageInWeeks, behaviour: data.petBehaviour, breed: data.breed, gender: data.gender, info: data.petInfo, location: data.location, pic: data.pic as any, name: data.name } }} >
+                            <Link key={data._id} href={{ pathname: '/(components)/(explore)/PetProfile', params: { _id: data._id, ageInWeeks: data.ageInWeeks, petBehaviour: data.petBehaviour, breed: data.breed, gender: data.gender, petInfo: data.petInfo, location: data.location, pic: data.pic as any, name: data.name } }} >
                                 <View style={{ width: 140, height: 125, borderRadius: 5, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative", }}>
 
                                     <Image source={data.pic} style={{ width: 140, height: 125, opacity: 0.9, objectFit: "cover" }} />

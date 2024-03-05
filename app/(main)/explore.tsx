@@ -1,8 +1,8 @@
 import { Text, useThemeColor } from '@/components/Themed'
 import idToken from '@/components/getIdToken'
-import { newlyWelcomedData } from '@/lib/newlyWelcomedData'
 import { MyContext } from '@/providers/storageProvider'
 import axios from 'axios'
+import { Link } from 'expo-router'
 import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, Image, ImageSourcePropType, ScrollView, TouchableOpacity, View } from 'react-native'
 
@@ -22,13 +22,18 @@ const filters = [
   },
 ]
 
-type itemsType = {
-  id: number
-  name: string
-  week: string
+type ExploreDataType = {
+  _id: string
+  ageInWeeks: number
   breed: string
-  type: string
+  gender: string
+  location: string
+  name: string
+  petBehaviour: string
   pic: ImageSourcePropType | undefined
+  typeOfPet: string
+  dateTime: string
+  petInfo: string[]
 }
 
 const Explore = () => {
@@ -36,8 +41,8 @@ const Explore = () => {
   const [clicked, setClicked] = useState<boolean>(false)
   const { storeToken, storeId } = useContext(MyContext);
   const [loading, setLoading] = useState<boolean>(false)
-  const [data, setData] = useState<any>([])
-  const [items, setItems] = useState<any>([])
+  const [data, setData] = useState<ExploreDataType[]>([])
+  const [items, setItems] = useState<ExploreDataType[]>([])
 
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
@@ -75,7 +80,7 @@ const Explore = () => {
     setClicked(true)
 
     const filteredItems: any[] = []
-    
+
     data.length > 0 && data.map((item: any) => {
       if (item.typeOfPet == filter) {
         filteredItems.push(item)
@@ -105,22 +110,23 @@ const Explore = () => {
 
       <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 35, marginVertical: 30 }}>
         {
-          items.map((data: any) => (
+          items.map((data: ExploreDataType) => (
+            <Link key={data._id} href={{ pathname: '/(components)/(explore)/PetProfile', params: { _id: data._id, ageInWeeks: data.ageInWeeks, petBehaviour: data.petBehaviour, breed: data.breed, gender: data.gender, petInfo: data.petInfo, location: data.location, pic: data.pic as any, name: data.name } }} >
+              <View key={data._id} style={{ width: 140, height: 125, borderRadius: 5, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative", }}>
 
-            <View key={data._id} style={{ width: 140, height: 125, borderRadius: 5, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative", }}>
+                <Image source={data.pic} style={{ width: 140, height: 125, opacity: 0.9, objectFit: "cover" }} />
+                <View style={{ position: "absolute", zIndex: 50, backgroundColor: "transparent", bottom: 0, paddingLeft: 5 }}>
 
-              <Image source={data.pic} style={{ width: 140, height: 125, opacity: 0.9, objectFit: "cover" }} />
-              <View style={{ position: "absolute", zIndex: 50, backgroundColor: "transparent", bottom: 0, paddingLeft: 5 }}>
+                  <View style={{ backgroundColor: "transparent", display: "flex", flexDirection: "row", justifyContent: "space-between", width: 130, alignItems: "center", }}>
+                    <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>{data.name}</Text>
+                    <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.ageInWeeks}w</Text>
+                  </View>
 
-                <View style={{ backgroundColor: "transparent", display: "flex", flexDirection: "row", justifyContent: "space-between", width: 130, alignItems: "center", }}>
-                  <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>{data.name}</Text>
-                  <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.ageInWeeks}w</Text>
+                  <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.breed}</Text>
                 </View>
 
-                <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.breed}</Text>
               </View>
-
-            </View>
+            </Link>
           ))
         }
       </View>
