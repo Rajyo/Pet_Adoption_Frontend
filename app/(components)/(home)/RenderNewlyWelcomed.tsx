@@ -14,7 +14,7 @@ type renderNewlyWelcomedProps = {
     }
 }
 
-const RenderNewlyWelcomed = ({ data }: renderNewlyWelcomedProps) => {
+const RenderNewlyWelcomed = ({ data }: any) => {
 
     return (
         <View style={{ marginVertical: 20, marginRight: 20, display: "flex", width: 135, height: 125, flexDirection: "row", borderRadius: 5, justifyContent: "space-between", shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative" }}>
@@ -24,7 +24,7 @@ const RenderNewlyWelcomed = ({ data }: renderNewlyWelcomedProps) => {
 
                 <View style={{ backgroundColor: "transparent", display: "flex", flexDirection: "row", justifyContent: "space-between", width: 125, alignItems: "center", }}>
                     <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>{data.name}</Text>
-                    <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.week}</Text>
+                    <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.ageInWeeks}w</Text>
                 </View>
 
                 <Text style={{ color: "white", fontSize: 12, fontWeight: "bold", marginTop: 2 }}>{data.breed}</Text>

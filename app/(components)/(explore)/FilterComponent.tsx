@@ -1,5 +1,5 @@
-import { View, Text, useThemeColor } from '@/components/Themed'
-import { filterTypeData } from '@/lib/filterTypeData'
+import { View, Text } from '@/components/Themed'
+import { filterTypeData, nonBreedfilterTypeData } from '@/lib/filterTypeData'
 import { finalFilteredData } from '@/lib/finalFilteredData'
 import { FontAwesome } from '@expo/vector-icons'
 import { Link } from 'expo-router'
@@ -28,11 +28,14 @@ const FilterComponent = () => {
     const [finalOption, setFinalOption] = useState<string>('All')
     const [finalFilter, setFinalFilter] = useState<filterType | undefined>()
 
-    const [petType, setPetType] = useState<string | undefined>('')
+    const [petType, setPetType] = useState<string | undefined>('All')
     const [gender, setGender] = useState<string | undefined>('')
     const [age, setAge] = useState<string | undefined>('')
     const [breed, setBreed] = useState<string | undefined>('')
 
+    useEffect(() => {
+        petType == 'All' && setBreed('')
+    }, [petType])
 
     useEffect(() => {
         finalFilteredData.map((item) => {
@@ -64,8 +67,14 @@ const FilterComponent = () => {
         <View style={{ minHeight: "100%", display: "flex", flexDirection: "row", position: "relative" }}>
 
             <View style={{ width: Dimensions.get('window').width * 0.35, height: Dimensions.get('window').height * 0.85, backgroundColor: "#cccccc" }}>
-                {
+                {petType != 'All' ?
                     filterTypeData.map((item) => (
+                        <TouchableOpacity key={item.id} style={{ paddingVertical: 15, alignItems: "center", backgroundColor: filterSelect == item.filterName ? "white" : "#cccccc" }} onPress={() => setFilterSelect(item.filterName)}>
+                            <Text style={{ opacity: 0.7, fontWeight: "500" }}>{item.filterName}</Text>
+                        </TouchableOpacity>
+                    ))
+                    :
+                    nonBreedfilterTypeData.map((item) => (
                         <TouchableOpacity key={item.id} style={{ paddingVertical: 15, alignItems: "center", backgroundColor: filterSelect == item.filterName ? "white" : "#cccccc" }} onPress={() => setFilterSelect(item.filterName)}>
                             <Text style={{ opacity: 0.7, fontWeight: "500" }}>{item.filterName}</Text>
                         </TouchableOpacity>
@@ -76,10 +85,9 @@ const FilterComponent = () => {
             <View style={{ width: Dimensions.get('window').width * 0.65, height: Dimensions.get('window').height * 0.85, borderLeftColor: "#cccccc", borderLeftWidth: 1 }}>
                 {
                     filterOptions.map((item: string) => (
-
                         <TouchableOpacity key={item} style={{ paddingVertical: 15, paddingHorizontal: 30, borderBottomWidth: 1, borderBlockColor: "#cccccc", display: "flex", flexDirection: "row", justifyContent: "space-between" }} onPress={() => { setFinalOption(item); setFinalFilter({ filterSelect, item }) }} >
                             <Text style={{ opacity: 0.7, fontWeight: "500" }}>{item}</Text>
-                            <Icon color='gray' name={item == finalOption ? "dot-circle-o" : 'circle-thin'} size={16} />
+                            <Icon color='gray' name={(item == finalOption || item == petType || item == gender || item == age || item == breed) ? "dot-circle-o" : 'circle-thin'} size={16} />
                         </TouchableOpacity>
                     ))
                 }
@@ -100,12 +108,6 @@ const FilterComponent = () => {
                 </Link>
 
             </View>
-
-            {/* <View style={{ display: "flex", flexDirection: "row", alignItems: "center", width: Dimensions.get('window').width, height: Dimensions.get('window').height * 0.063, position: "absolute", bottom: 0, borderTopWidth: 1, borderColor: "gray" }}>
-                <Text style={{ fontWeight: "bold", fontSize: 15, width: Dimensions.get('window').width * 0.49, textAlign: "center", }}>CANCEL</Text>
-                <Text style={{ backgroundColor: "gray", height: Dimensions.get('window').height * 0.063, color: "gray" }}>.</Text>
-                <Text style={{ fontWeight: "bold", fontSize: 15, width: Dimensions.get('window').width * 0.49, textAlign: "center", }}>APPLY</Text>
-            </View> */}
 
         </View>
     )

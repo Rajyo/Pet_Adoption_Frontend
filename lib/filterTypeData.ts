@@ -16,3 +16,18 @@ export const filterTypeData = [
         filterName: "Breed"
     },
 ]
+
+export const nonBreedfilterTypeData = [
+    {
+        id: 1,
+        filterName: "Pet Type"
+    },
+    {
+        id: 2,
+        filterName: "Gender"
+    },
+    {
+        id: 3,
+        filterName: "Age"
+    },
+]

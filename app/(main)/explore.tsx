@@ -1,7 +1,10 @@
 import { Text, useThemeColor } from '@/components/Themed'
+import idToken from '@/components/getIdToken'
 import { newlyWelcomedData } from '@/lib/newlyWelcomedData'
-import React, { useEffect, useState } from 'react'
-import { Dimensions, Image, ImageSourcePropType, ScrollView, TouchableOpacity, View } from 'react-native'
+import { MyContext } from '@/providers/storageProvider'
+import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
+import { ActivityIndicator, Dimensions, Image, ImageSourcePropType, ScrollView, TouchableOpacity, View } from 'react-native'
 
 
 const filters = [
@@ -31,28 +34,60 @@ type itemsType = {
 const Explore = () => {
   const [filter, setFilter] = useState<string>('All')
   const [clicked, setClicked] = useState<boolean>(false)
-  const [items, setItems] = useState<itemsType[]>([])
+  const { storeToken, storeId } = useContext(MyContext);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [data, setData] = useState<any>([])
+  const [items, setItems] = useState<any>([])
+
+  const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
+
+  useEffect(() => {
+    setLoading(true)
+    const petProfile = async () => {
+      await axios.get('http://10.0.0.58:8000/api/petProfile/', {
+        headers: {
+          Authorization: token
+            ? "Bearer " + token
+            : null,
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      })
+        .then(res => {
+          // console.log(res.data);
+          setData(res.data)
+          setItems(res.data)
+          setLoading(false)
+        })
+        .catch((error: any) => {
+          console.log(error)
+          setLoading(false)
+        })
+    }
+    petProfile()
+
+  }, [token])
+
+  loading && <ActivityIndicator />
 
 
   useEffect(() => {
     setClicked(true)
 
-    const items = newlyWelcomedData.filter((item) => {
-      if (item.type == filter)
-        return item
+    const filteredItems: any[] = []
+    
+    data.length > 0 && data.map((item: any) => {
+      if (item.typeOfPet == filter) {
+        filteredItems.push(item)
+      }
     })
-    setItems(items)
+    // console.log(filteredItems);
+    setItems(filteredItems)
 
-    if (items.length == 0) {
-      const allItems = newlyWelcomedData.map((item) => {
-        return item
-      })
-      setItems(allItems)
-    }
+    filteredItems.length == 0 && setItems(data)
 
   }, [filter])
 
-  // console.log(items);
 
   return (
     <ScrollView style={{ minHeight: "100%", backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} contentContainerStyle={{ width: Dimensions.get('window').width * 0.9, alignSelf: "center" }}>
@@ -70,16 +105,16 @@ const Explore = () => {
 
       <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 35, marginVertical: 30 }}>
         {
-          items.map((data) => (
-            
-            <View key={data.id} style={{ width: 140, height: 125, borderRadius: 5, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative", }}>
+          items.map((data: any) => (
+
+            <View key={data._id} style={{ width: 140, height: 125, borderRadius: 5, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative", }}>
 
               <Image source={data.pic} style={{ width: 140, height: 125, opacity: 0.9, objectFit: "cover" }} />
               <View style={{ position: "absolute", zIndex: 50, backgroundColor: "transparent", bottom: 0, paddingLeft: 5 }}>
 
                 <View style={{ backgroundColor: "transparent", display: "flex", flexDirection: "row", justifyContent: "space-between", width: 130, alignItems: "center", }}>
                   <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>{data.name}</Text>
-                  <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.week}</Text>
+                  <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.ageInWeeks}w</Text>
                 </View>
 
                 <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.breed}</Text>

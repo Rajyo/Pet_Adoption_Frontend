@@ -1,8 +1,9 @@
 import { Text } from '@/components/Themed';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 
 
 export default function RootLayoutNav() {
+    const router = useRouter()
 
     return (
         <Stack>
@@ -14,7 +15,7 @@ export default function RootLayoutNav() {
             <Stack.Screen name="(profile)/adoptionStatus" options={{ title: "Adoption Status"}} />
             <Stack.Screen name="(profile)/help" options={{ title: "Help"}} />
             
-            <Stack.Screen name="(explore)/FilterComponent" options={{ title: "Filters", headerRight: () => <Text style={{paddingRight:20, fontWeight:"bold", color:"orange", opacity: 0.85}}>Clear All</Text>}} />
+            <Stack.Screen name="(explore)/FilterComponent" options={{ title: "Filters", headerRight: () => <Text style={{paddingRight:20, fontWeight:"bold", color:"orange", opacity: 0.85}} onPress={() => router.replace('/(components)/(explore)/FilterComponent')}>Clear All</Text>}} />
             <Stack.Screen name="(explore)/SearchComponent" options={{ title: "Search", headerRight: () => <Text style={{paddingRight:20, fontWeight:"bold", color:"orange",}}>Clear All</Text>}} />
             <Stack.Screen name="(explore)/FilterResult" options={{ title: 'Search', headerTitleAlign: "center" }} />
             <Stack.Screen name="(explore)/PetProfile" options={{ title: "", headerTransparent: true}} />
