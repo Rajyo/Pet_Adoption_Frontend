@@ -6,6 +6,7 @@ import { Link } from 'expo-router'
 import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, GestureResponderEvent, Image, ImageSourcePropType, ScrollView, TextInput, TouchableOpacity, View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
+import RenderNewlyWelcomed from '../(components)/(home)/RenderNewlyWelcomed'
 
 type ExploreDataType = {
   _id: string
@@ -90,30 +91,6 @@ const Explore = () => {
   }, [searchByName])
 
 
-  const handlePetLiking = async (e: GestureResponderEvent, id: string) => {
-    e.preventDefault();
-
-    await axios.put('http://10.0.0.58:8000/api/petProfile/like', {
-      petProfileId: id
-    }, {
-      headers: {
-        Authorization: token
-          ? "Bearer " + token
-          : null,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    })
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch((error: any) => {
-        console.log(error)
-      })
-  }
-
-  console.log(items);
-
   return (
     <ScrollView style={{ minHeight: "100%", backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} contentContainerStyle={{ width: Dimensions.get('window').width * 0.9, alignSelf: "center" }}>
 
@@ -130,45 +107,20 @@ const Explore = () => {
         />
       </View>
 
+      <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent:"space-around", marginVertical:20}} >
+        {
+          items.length > 0 && items.map((data: ExploreDataType) => (
+            <RenderNewlyWelcomed key={data._id} data={data} />
+          ))
+        }
+      </View>
 
       <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 35, marginVertical: 30 }}>
-
         {
           (items.length == 0 && searchByName.length != 0) && <View style={{ display: "flex", alignItems: "center", width: "100%", gap: 50, paddingVertical: 40, }}>
             <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>There are no matches for your searched name.</Text>
             <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>Please consider providing valid pet names.</Text>
           </View>
-        }
-        {
-          items.length > 0 && items.map((data: ExploreDataType) => (
-            <Link key={data._id} href={{ pathname: '/(components)/(explore)/PetProfile', params: { _id: data._id, ageInWeeks: data.ageInWeeks, petBehaviour: data.petBehaviour, breed: data.breed, gender: data.gender, petInfo: data.petInfo, location: data.location, pic: data.pic as any, name: data.name } }} >
-              <View key={data._id} style={{ width: 140, height: 125, borderRadius: 5, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative", }}>
-
-                <Image source={data.pic} style={{ width: 140, height: 125, opacity: 0.9, objectFit: "cover" }} />
-
-                <TouchableOpacity style={{ position: "absolute", right: 0, padding: 5 }} onPress={(e) => handlePetLiking(e, data._id)} >
-                  {
-                    (data.likes != undefined && data.likes?.length > 0)
-                      ? data.likes.map((like) => (
-                        <Icon key={like} color={like == storeId ? 'red' : 'white'} size={16} name='heart' />
-                      ))
-                      : <Icon color='white' size={16} name='heart-o' />
-                  }
-                </TouchableOpacity>
-
-                <View style={{ position: "absolute", zIndex: 50, backgroundColor: "transparent", bottom: 0, paddingLeft: 5 }}>
-
-                  <View style={{ backgroundColor: "transparent", display: "flex", flexDirection: "row", justifyContent: "space-between", width: 130, alignItems: "center", }}>
-                    <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>{data.name}</Text>
-                    <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.ageInWeeks}w</Text>
-                  </View>
-
-                  <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.breed}</Text>
-                </View>
-
-              </View>
-            </Link>
-          ))
         }
       </View>
 

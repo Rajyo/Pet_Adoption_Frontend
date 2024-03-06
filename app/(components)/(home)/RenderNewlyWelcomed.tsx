@@ -59,7 +59,7 @@ const RenderNewlyWelcomed = ({ data }: renderNewlyWelcomedProps) => {
 
     return (
         <Link key={dataa._id} href={{ pathname: '/(components)/(explore)/PetProfile', params: { _id: dataa._id, ageInWeeks: dataa.ageInWeeks, petBehaviour: dataa.petBehaviour, breed: dataa.breed, gender: dataa.gender, petInfo: dataa.petInfo, location: dataa.location, pic: dataa.pic as any, name: dataa.name } }} >
-            <View style={{ marginVertical: 10, marginRight: 20, display: "flex", width: 135, height: 125, flexDirection: "row", borderRadius: 5, justifyContent: "space-between", shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative" }}>
+            <View style={{ marginVertical: 10, display: "flex", width: 135, height: 125, flexDirection: "row", borderRadius: 5, justifyContent: "space-between", shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative" }}>
 
                 <Image source={dataa.pic} style={{ width: 135, height: 125, opacity: 0.9, objectFit: "cover" }} />
 

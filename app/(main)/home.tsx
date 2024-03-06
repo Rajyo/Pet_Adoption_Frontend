@@ -102,7 +102,7 @@ const Main = () => {
           </Link>
         </View>
 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 5 }}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 5 }} contentContainerStyle={{gap:20}}>
           {
             data && data?.map((item: HomeDataType) => (
               <RenderNewlyWelcomed key={item._id} data={item} />
