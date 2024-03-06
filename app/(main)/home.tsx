@@ -1,10 +1,8 @@
 import { Text, View, useThemeColor } from '@/components/Themed'
-import { upcomingVisitsData } from '@/lib/upcomingVisitsData';
 import { FontAwesome } from '@expo/vector-icons';
 import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, Image, ImageSourcePropType, ScrollView } from 'react-native';
 import RenderUpcomingVisits from '../(components)/(home)/RenderUpcomingVisits';
-import { newlyWelcomedData } from '@/lib/newlyWelcomedData';
 import RenderNewlyWelcomed from '../(components)/(home)/RenderNewlyWelcomed';
 import VideoComponent from '../(components)/(home)/VideoComponent';
 import axios from 'axios';
@@ -33,6 +31,7 @@ type HomeDataType = {
   typeOfPet: string
   dateTime: string
   petInfo: string[]
+  likes?: string[] | null
 }
 
 const Main = () => {

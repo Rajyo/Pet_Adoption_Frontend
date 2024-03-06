@@ -4,7 +4,7 @@ import { MyContext } from '@/providers/storageProvider'
 import axios from 'axios'
 import { Link } from 'expo-router'
 import React, { useContext, useEffect, useState } from 'react'
-import { ActivityIndicator, Dimensions, Image, ImageSourcePropType, ScrollView, TextInput, View } from 'react-native'
+import { ActivityIndicator, Dimensions, GestureResponderEvent, Image, ImageSourcePropType, ScrollView, TextInput, TouchableOpacity, View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 
 type ExploreDataType = {
@@ -19,6 +19,7 @@ type ExploreDataType = {
   typeOfPet: string
   dateTime: string
   petInfo: string[]
+  likes?: string[] | null
 }
 
 export function Icon(props: {
@@ -33,6 +34,7 @@ const Explore = () => {
   const { storeToken, storeId } = useContext(MyContext);
   const [loading, setLoading] = useState<boolean>(false)
   const [data, setData] = useState<ExploreDataType[]>([])
+  const [dataa, setDataa] = useState<ExploreDataType>()
   const [items, setItems] = useState<ExploreDataType[]>([])
   const [searchByName, setSearchByName] = useState<string>('')
 
@@ -88,6 +90,30 @@ const Explore = () => {
   }, [searchByName])
 
 
+  const handlePetLiking = async (e: GestureResponderEvent, id: string) => {
+    e.preventDefault();
+
+    await axios.put('http://10.0.0.58:8000/api/petProfile/like', {
+      petProfileId: id
+    }, {
+      headers: {
+        Authorization: token
+          ? "Bearer " + token
+          : null,
+        "Content-Type": "application/json",
+        accept: "application/json",
+      },
+    })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
+  }
+
+  console.log(items);
+
   return (
     <ScrollView style={{ minHeight: "100%", backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} contentContainerStyle={{ width: Dimensions.get('window').width * 0.9, alignSelf: "center" }}>
 
@@ -119,6 +145,17 @@ const Explore = () => {
               <View key={data._id} style={{ width: 140, height: 125, borderRadius: 5, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative", }}>
 
                 <Image source={data.pic} style={{ width: 140, height: 125, opacity: 0.9, objectFit: "cover" }} />
+
+                <TouchableOpacity style={{ position: "absolute", right: 0, padding: 5 }} onPress={(e) => handlePetLiking(e, data._id)} >
+                  {
+                    (data.likes != undefined && data.likes?.length > 0)
+                      ? data.likes.map((like) => (
+                        <Icon key={like} color={like == storeId ? 'red' : 'white'} size={16} name='heart' />
+                      ))
+                      : <Icon color='white' size={16} name='heart-o' />
+                  }
+                </TouchableOpacity>
+
                 <View style={{ position: "absolute", zIndex: 50, backgroundColor: "transparent", bottom: 0, paddingLeft: 5 }}>
 
                   <View style={{ backgroundColor: "transparent", display: "flex", flexDirection: "row", justifyContent: "space-between", width: 130, alignItems: "center", }}>
