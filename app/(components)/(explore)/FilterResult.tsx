@@ -3,7 +3,7 @@ import idToken from '@/components/getIdToken'
 import { MyContext } from '@/providers/storageProvider'
 import { FontAwesome } from '@expo/vector-icons'
 import axios from 'axios'
-import { Link, useLocalSearchParams } from 'expo-router'
+import { Link, Stack, useLocalSearchParams } from 'expo-router'
 import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, Image, ImageSourcePropType, ScrollView, TouchableOpacity } from 'react-native'
 
@@ -151,13 +151,15 @@ const FilterResult = () => {
     return (
         <ScrollView contentContainerStyle={{ width: Dimensions.get('window').width * 0.9, alignSelf: "center" }} style={{ minHeight: "100%", backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }}>
 
+            <Stack.Screen options={{ title: `Search Results (${filteredArray.length})`, headerTitleStyle: { fontWeight: "600", fontSize: 19 }, headerTitleAlign: "center" }} />
+
             <View style={{ display: "flex", flexDirection: "row", gap: 20, flexWrap: "wrap", marginVertical: 20, }}>
                 {
                     filterData.map((filter) => {
                         return filter.filterType.length > 0 &&
-                            <TouchableOpacity key={filter.id} style={{ display: 'flex', flexDirection: "row", backgroundColor: '#cccccc', paddingHorizontal: 10, paddingVertical: 10, gap: 15, borderRadius: 5, alignItems: "center" }}>
-                                <Text style={{ fontSize: 16 }}>{filter.filterType}</Text>
-                                <Icon color='gray' size={19} name='trash' />
+                            <TouchableOpacity key={filter.id} style={{ display: 'flex', flexDirection: "row", backgroundColor: 'rgb(235, 235, 235)', paddingHorizontal: 10, paddingVertical: 8, gap: 15, borderRadius: 5, alignItems: "center" }}>
+                                <Text style={{ fontSize: 16, fontWeight: "600", opacity: 0.8 }}>{filter.filterType}</Text>
+                                <Icon color='gray' size={16} name='check' />
                             </TouchableOpacity>
 
                     })
@@ -167,9 +169,9 @@ const FilterResult = () => {
 
             <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 35, marginVertical: 30 }}>
                 {
-                    filteredArray?.length == 0 ? <View style={{display:"flex", alignItems:"center", width:"100%", gap: 50, paddingVertical: 40, }}>
-                        <Text style={{textAlign:"center", fontSize:20, fontWeight: "bold", textTransform:'uppercase', color:"red"}}>There are no matches for your search criteria.</Text>
-                        <Text style={{textAlign:"center", fontSize:20, fontWeight: "bold", textTransform:'uppercase', color:"red"}}>Please consider adjusting your filters.</Text>
+                    filteredArray?.length == 0 ? <View style={{ display: "flex", alignItems: "center", width: "100%", gap: 50, paddingVertical: 40, }}>
+                        <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>There are no matches for your search criteria.</Text>
+                        <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>Please consider adjusting your filters.</Text>
                     </View> :
                         filteredArray?.map((data: finalDataType) => (
                             <Link key={data._id} href={{ pathname: '/(components)/(explore)/PetProfile', params: { _id: data._id, ageInWeeks: data.ageInWeeks, petBehaviour: data.petBehaviour, breed: data.breed, gender: data.gender, petInfo: data.petInfo, location: data.location, pic: data.pic as any, name: data.name } }} >

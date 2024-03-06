@@ -10,6 +10,7 @@ import VideoComponent from '../(components)/(home)/VideoComponent';
 import axios from 'axios';
 import idToken from '@/components/getIdToken';
 import { MyContext } from '@/providers/storageProvider';
+import { Link } from 'expo-router';
 
 
 function Icon(props: {
@@ -81,10 +82,10 @@ const Main = () => {
       <View style={{ marginTop: 15 }}>
         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ fontSize: 18, fontWeight: "600" }}>Upcoming Visits</Text>
-          <Text style={{ fontSize: 15, color: "orange", fontWeight: "bold" }}>See All</Text>
+          <Text style={{ fontSize: 15, color: "orange", fontWeight: "bold", alignSelf:"center", }} >Scroll</Text>
         </View>
 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: -5 }}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 5 }}>
           {
             data && data?.map((item: HomeDataType) => (
               <RenderUpcomingVisits key={item._id} data={item} />
@@ -94,13 +95,15 @@ const Main = () => {
       </View>
 
 
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: 25 }}>
         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ fontSize: 18, fontWeight: "600" }}>Newly Welcomed</Text>
-          <Text style={{ fontSize: 15, color: "orange", fontWeight: "bold" }}>See All</Text>
+          <Link href={'/(main)/explore'}>
+            <Text style={{ fontSize: 15, color: "orange", fontWeight: "bold" }} >See All</Text>
+          </Link>
         </View>
 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: -5 }}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 5 }}>
           {
             data && data?.map((item: HomeDataType) => (
               <RenderNewlyWelcomed key={item._id} data={item} />
@@ -110,7 +113,7 @@ const Main = () => {
       </View>
 
 
-      <ScrollView style={{ marginTop: 10, marginBottom: 30 }}>
+      <ScrollView style={{ marginTop: 15, marginBottom: 30 }}>
         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginVertical: 10 }}>
           <Text style={{ fontSize: 18, fontWeight: "600" }}>Story of the Day</Text>
         </View>

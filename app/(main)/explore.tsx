@@ -4,23 +4,8 @@ import { MyContext } from '@/providers/storageProvider'
 import axios from 'axios'
 import { Link } from 'expo-router'
 import React, { useContext, useEffect, useState } from 'react'
-import { ActivityIndicator, Dimensions, Image, ImageSourcePropType, ScrollView, TouchableOpacity, View } from 'react-native'
-
-
-const filters = [
-  {
-    id: 1,
-    name: "All"
-  },
-  {
-    id: 2,
-    name: "Dog"
-  },
-  {
-    id: 3,
-    name: "Cat"
-  },
-]
+import { ActivityIndicator, Dimensions, Image, ImageSourcePropType, ScrollView, TextInput, View } from 'react-native'
+import { FontAwesome } from '@expo/vector-icons'
 
 type ExploreDataType = {
   _id: string
@@ -36,13 +21,21 @@ type ExploreDataType = {
   petInfo: string[]
 }
 
+export function Icon(props: {
+  name: React.ComponentProps<typeof FontAwesome>['name'];
+  color: string;
+  size: number
+}) {
+  return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
+}
+
 const Explore = () => {
-  const [filter, setFilter] = useState<string>('All')
-  const [clicked, setClicked] = useState<boolean>(false)
   const { storeToken, storeId } = useContext(MyContext);
   const [loading, setLoading] = useState<boolean>(false)
   const [data, setData] = useState<ExploreDataType[]>([])
   const [items, setItems] = useState<ExploreDataType[]>([])
+  const [searchByName, setSearchByName] = useState<string>('')
+
 
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
@@ -77,40 +70,51 @@ const Explore = () => {
 
 
   useEffect(() => {
-    setClicked(true)
-
     const filteredItems: any[] = []
 
-    data.length > 0 && data.map((item: any) => {
-      if (item.typeOfPet == filter) {
+    const reverseString = (str: string) => {
+      return str.split("").reverse().join("");
+    }
+    const reverseSearchName = reverseString(searchByName)
+
+    data.length > 0 && data.map((item: ExploreDataType) => {
+
+      if (item.name.toLowerCase().includes(searchByName.toLowerCase()) || item.name.toLowerCase().includes(reverseSearchName.toLowerCase())) {
         filteredItems.push(item)
       }
     })
-    // console.log(filteredItems);
     setItems(filteredItems)
 
-    filteredItems.length == 0 && setItems(data)
-
-  }, [filter])
+  }, [searchByName])
 
 
   return (
     <ScrollView style={{ minHeight: "100%", backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} contentContainerStyle={{ width: Dimensions.get('window').width * 0.9, alignSelf: "center" }}>
-      <Text style={{ marginTop: 10, marginBottom: 20, fontSize: 25, fontWeight: "bold" }}>Categories</Text>
 
-      <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-        {
-          filters.map((item) => (
-            <TouchableOpacity key={item.id} >
-              <Text onPress={() => setFilter(item.name)} style={{ backgroundColor: clicked && item.name == filter ? "#fd6100" : "#cccccc", color: clicked && item.name == filter ? "white" : "black", paddingVertical: 8, paddingHorizontal: 18, borderRadius: 10, fontSize: 16, fontWeight: "600" }}>{item.name}</Text>
-            </TouchableOpacity>
-          ))
-        }
+      <View style={{ marginVertical: 20, position: "relative" }}>
+        <View style={{ position: "absolute", top: 14, left: 15, opacity: 0.8 }}>
+          <Icon color='gray' name='search' size={18} />
+        </View>
+        <TextInput
+          value={searchByName}
+          onChangeText={setSearchByName}
+          placeholder='search pet by name...'
+          placeholderTextColor={'gray'}
+          style={{ borderWidth: 1, borderColor: 'gray', padding: 8, marginTop: 5, backgroundColor: 'white', borderRadius: 20, textAlign: "center" }}
+        />
       </View>
 
+
       <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 35, marginVertical: 30 }}>
+
         {
-          items.map((data: ExploreDataType) => (
+          (items.length == 0 && searchByName.length != 0) && <View style={{ display: "flex", alignItems: "center", width: "100%", gap: 50, paddingVertical: 40, }}>
+            <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>There are no matches for your searched name.</Text>
+            <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>Please consider providing valid pet names.</Text>
+          </View>
+        }
+        {
+          items.length > 0 && items.map((data: ExploreDataType) => (
             <Link key={data._id} href={{ pathname: '/(components)/(explore)/PetProfile', params: { _id: data._id, ageInWeeks: data.ageInWeeks, petBehaviour: data.petBehaviour, breed: data.breed, gender: data.gender, petInfo: data.petInfo, location: data.location, pic: data.pic as any, name: data.name } }} >
               <View key={data._id} style={{ width: 140, height: 125, borderRadius: 5, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative", }}>
 

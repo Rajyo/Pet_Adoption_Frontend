@@ -1,13 +1,13 @@
 import { Text, View } from '@/components/Themed'
 import React from 'react'
 
-const Chat = () => {
+const Favourites = () => {
   return (
     <View>
-      <Text>Chat</Text>
+      <Text>Favourites</Text>
     </View>
   )
 }
 
-export default Chat
+export default Favourites
 

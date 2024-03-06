@@ -37,12 +37,9 @@ export default function HomeLayout() {
 
       <Tabs.Screen name='explore'
         options={{
-          title: "Explore", headerTitle: "PAWSFORYOU",
+          title: "Explore", headerTitle: "Explore",
           headerTitleStyle: { color: "#fd6100", fontSize: 22, fontWeight: "700" },
-          headerRight: () => <View style={{ display: "flex", flexDirection: "row", gap: 40, paddingRight: 20 }}>
-            <Link href={'/(components)/(explore)/SearchComponent'}>
-              <Icon name='search' color={colorScheme == "light" ? "black" : "white"} size={25}></Icon>
-            </Link>
+          headerRight: () => <View style={{ paddingRight: 20 }}>
             <Link href={'/(components)/(explore)/FilterComponent'}>
               <Icon name='filter' color={colorScheme == "light" ? "black" : "white"} size={25}></Icon>
             </Link>
@@ -51,11 +48,11 @@ export default function HomeLayout() {
         }}
       />
 
-      <Tabs.Screen name='chat'
+      <Tabs.Screen name='favourites'
         options={{
-          title: "Chats", headerTitle: "Chats",
+          title: "Favourites", headerTitle: "Favourites",
           headerTitleStyle: { fontSize: 22, fontWeight: "700" },
-          tabBarIcon: ({ color }) => <TabBarIcon name="coffee" color={color} />, tabBarActiveTintColor: "#fd6100",
+          tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />, tabBarActiveTintColor: "#fd6100",
         }}
       />
 

@@ -26,7 +26,7 @@ type renderUpcomingVisitsProps = {
 const RenderUpcomingVisits = ({ data }: any) => {
 
     return (
-        <View style={{ marginVertical: 20, marginRight: 12, display: "flex", width: 280, flexDirection: "row", borderRadius: 5, justifyContent: "space-between", padding: 9, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, }}>
+        <View style={{ marginVertical: 10, marginRight: 12, display: "flex", width: 280, flexDirection: "row", borderRadius: 5, justifyContent: "space-between", padding: 9, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, }}>
             <View style={{ gap: 10, marginVertical: 5 }}>
                 <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
                     <Icon name='calendar' color='gray' size={18} />

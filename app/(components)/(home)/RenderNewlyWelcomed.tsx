@@ -25,7 +25,7 @@ const RenderNewlyWelcomed = ({ data }: renderNewlyWelcomedProps) => {
 
     return (
         <Link key={data._id} href={{ pathname: '/(components)/(explore)/PetProfile', params: { _id: data._id, ageInWeeks: data.ageInWeeks, petBehaviour: data.petBehaviour, breed: data.breed, gender: data.gender, petInfo: data.petInfo, location: data.location, pic: data.pic as any, name: data.name } }} >
-            <View style={{ marginVertical: 20, marginRight: 20, display: "flex", width: 135, height: 125, flexDirection: "row", borderRadius: 5, justifyContent: "space-between", shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative" }}>
+            <View style={{ marginVertical: 10, marginRight: 20, display: "flex", width: 135, height: 125, flexDirection: "row", borderRadius: 5, justifyContent: "space-between", shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative" }}>
 
                 <Image source={data.pic} style={{ width: 135, height: 125, opacity: 0.9, objectFit: "cover" }} />
                 <View style={{ position: "absolute", zIndex: 50, backgroundColor: "transparent", bottom: 0, paddingLeft: 5 }}>
