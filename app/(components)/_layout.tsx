@@ -13,7 +13,6 @@ export default function RootLayoutNav() {
             <Stack.Screen name="(profile)/petCare" options={{ title: "Pet Care"}} />
             <Stack.Screen name="(profile)/petResources" options={{ title: "Pet Resources"}} />
             <Stack.Screen name="(profile)/adoptionStatus" options={{ title: "Adoption Status"}} />
-            <Stack.Screen name="(profile)/help" options={{ title: "Help"}} />
             
             <Stack.Screen name="(explore)/FilterComponent" options={{ title: "Filters", headerRight: () => <Text style={{paddingRight:20, fontWeight:"bold", color:"orange", opacity: 0.85}} onPress={() => router.replace('/(components)/(explore)/FilterComponent')}>Clear All</Text>}} />
             {/* <Stack.Screen name="(explore)/FilterResult" options={{ title: 'Search Results', headerTitleStyle: {fontWeight: "600", fontSize: 19 }, headerTitleAlign: "center" }} /> */}

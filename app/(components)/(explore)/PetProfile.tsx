@@ -41,8 +41,7 @@ const PetProfile = () => {
 
 
     useEffect(() => {
-        // console.log("like", like)
-    }, [like])
+    })
 
     const handlePetLiking = async (e: GestureResponderEvent, id: string) => {
         e.preventDefault();
@@ -59,14 +58,14 @@ const PetProfile = () => {
             },
         })
             .then(res => {
-                // console.log(res.data.likes);
+                console.log(res.data);
                 res.data.likes.length > 0
                     ? res.data.likes.map((item: string) => {
                         item == likes
                             ? setLike(likes)
-                            : setLike("no like")
+                            : setLike("")
                     })
-                    : setLike("no like")
+                    : setLike("")
                 // setDataa(res.data)
             })
             .catch((error: any) => {
@@ -87,7 +86,7 @@ const PetProfile = () => {
                         <Text style={{ fontSize: 15 }}>{location}</Text>
                         <TouchableOpacity style={{ position: "absolute", right: 5, top: -50 }} onPress={(e) => handlePetLiking(e, _id)} >
                             {
-                                like != 'no like' ? <Icon color='red' size={22} name='heart' /> : <Icon color='white' size={20} name='heart-o' />
+                                like.length > 10 ? <Icon color='red' size={22} name='heart' /> : <Icon color='white' size={20} name='heart-o' />
                             }
                         </TouchableOpacity>
                     </View>
