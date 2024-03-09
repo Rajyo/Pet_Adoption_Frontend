@@ -6,6 +6,7 @@ import axios from 'axios'
 import { Link, Stack, useLocalSearchParams } from 'expo-router'
 import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, Image, ImageSourcePropType, ScrollView, TouchableOpacity } from 'react-native'
+import RenderNewlyWelcomed from '../(home)/RenderNewlyWelcomed'
 
 type finalResultType = {
     petType: string,
@@ -26,6 +27,7 @@ type finalDataType = {
     typeOfPet: string
     dateTime: string
     petInfo: string[]
+    likes?: string[] | null
 }
 
 function Icon(props: {
@@ -158,41 +160,32 @@ const FilterResult = () => {
                     filterData.map((filter) => {
                         return filter.filterType.length > 0 &&
                             <TouchableOpacity key={filter.id} style={{ display: 'flex', flexDirection: "row", backgroundColor: 'rgb(235, 235, 235)', paddingHorizontal: 10, paddingVertical: 8, gap: 15, borderRadius: 5, alignItems: "center" }}>
-                                <Text style={{ fontSize: 16, fontWeight: "600", opacity: 0.8 }}>{filter.filterType}</Text>
+                                <Text style={{ fontSize: 16, fontWeight: "600", opacity: 0.8, color:"black" }}>{filter.filterType}</Text>
                                 <Icon color='gray' size={16} name='check' />
                             </TouchableOpacity>
 
                     })
-
                 }
             </View>
 
-            <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 35, marginVertical: 30 }}>
-                {
-                    filteredArray?.length == 0 ? <View style={{ display: "flex", alignItems: "center", width: "100%", gap: 50, paddingVertical: 40, }}>
-                        <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>There are no matches for your search criteria.</Text>
-                        <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>Please consider adjusting your filters.</Text>
-                    </View> :
-                        filteredArray?.map((data: finalDataType) => (
-                            <Link key={data._id} href={{ pathname: '/(components)/(explore)/PetProfile', params: { _id: data._id, ageInWeeks: data.ageInWeeks, petBehaviour: data.petBehaviour, breed: data.breed, gender: data.gender, petInfo: data.petInfo, location: data.location, pic: data.pic as any, name: data.name } }} >
-                                <View style={{ width: 140, height: 125, borderRadius: 5, shadowColor: 'gray', elevation: 10, shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.8, shadowRadius: 5, borderColor: "gray", borderWidth: 1, position: "relative", }}>
-
-                                    <Image source={data.pic} style={{ width: 140, height: 125, opacity: 0.9, objectFit: "cover" }} />
-                                    <View style={{ position: "absolute", zIndex: 50, backgroundColor: "transparent", bottom: 0, paddingLeft: 5 }}>
-
-                                        <View style={{ backgroundColor: "transparent", display: "flex", flexDirection: "row", justifyContent: "space-between", width: 130, alignItems: "center", }}>
-                                            <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>{data.name}</Text>
-                                            <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.ageInWeeks}w</Text>
-                                        </View>
-
-                                        <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{data.breed}</Text>
-                                    </View>
-
-                                </View>
-                            </Link>
-                        ))
-                }
-            </View>
+            {
+                filteredArray?.length == 0
+                    ? <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 35, marginVertical: 30 }}>
+                        {
+                            <View style={{ display: "flex", alignItems: "center", width: "100%", gap: 50, paddingVertical: 40, }}>
+                                <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>There are no matches for your search criteria.</Text>
+                                <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>Please consider adjusting your filters.</Text>
+                            </View>
+                        }
+                    </View>
+                    : <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-around", marginVertical: 20, gap: 30 }} >
+                        {
+                            filteredArray?.map((data: finalDataType) => (
+                                <RenderNewlyWelcomed key={data._id} data={data} />
+                            ))
+                        }
+                    </View>
+            }
 
         </ScrollView>
     )

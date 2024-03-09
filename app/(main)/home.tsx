@@ -1,7 +1,7 @@
 import { Text, View, useThemeColor } from '@/components/Themed'
 import { FontAwesome } from '@expo/vector-icons';
 import React, { useContext, useEffect, useState } from 'react'
-import { ActivityIndicator, Image, ImageSourcePropType, ScrollView } from 'react-native';
+import { ActivityIndicator, Image, ImageSourcePropType, RefreshControl, ScrollView } from 'react-native';
 import RenderUpcomingVisits from '../(components)/(home)/RenderUpcomingVisits';
 import RenderNewlyWelcomed from '../(components)/(home)/RenderNewlyWelcomed';
 import VideoComponent from '../(components)/(home)/VideoComponent';
@@ -71,9 +71,9 @@ const Main = () => {
 
 
   return (
-    <ScrollView style={{ minHeight: "100%", paddingHorizontal: 20, backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }}>
+    <ScrollView style={{ minHeight: "100%", paddingHorizontal: 20, backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} >
 
-      <View style={{ display: "flex", flexDirection: "row", gap: 20, marginVertical: 15 }}>
+      <View style={{ display: "flex", flexDirection: "row", gap: 20, marginVertical: 15 }} >
         <Icon name='location-arrow' color='gray' size={22}></Icon>
         <Text style={{ fontSize: 15 }}>Maharashtra, INDIA</Text>
       </View>
@@ -81,7 +81,7 @@ const Main = () => {
       <View style={{ marginTop: 15 }}>
         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ fontSize: 18, fontWeight: "600" }}>Upcoming Visits</Text>
-          <Text style={{ fontSize: 15, color: "orange", fontWeight: "bold", alignSelf:"center", }} >Scroll</Text>
+          <Text style={{ fontSize: 15, color: "orange", fontWeight: "bold", alignSelf: "center", }} >Scroll</Text>
         </View>
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 5 }}>
@@ -102,7 +102,7 @@ const Main = () => {
           </Link>
         </View>
 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 5 }} contentContainerStyle={{gap:20}}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 5 }} contentContainerStyle={{ gap: 20 }}>
           {
             data && data?.map((item: HomeDataType) => (
               <RenderNewlyWelcomed key={item._id} data={item} />

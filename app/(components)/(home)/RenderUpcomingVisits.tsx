@@ -41,7 +41,7 @@ const RenderUpcomingVisits = ({ data }: any) => {
                     <Text style={{ fontSize: 13, fontWeight: "bold", alignSelf: "flex-end", paddingBottom: 2 }}>{data.ageInWeeks}w</Text>
                 </View>
             </View>
-            <Image source={data.pic} style={{ width: 100, height: 100, objectFit:"cover" }} />
+            <Image source={{uri:data.pic}} style={{ width: 100, height: 100, objectFit:"cover" }} />
         </View>
     )
 }

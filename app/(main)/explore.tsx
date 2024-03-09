@@ -2,7 +2,6 @@ import { Text, useThemeColor } from '@/components/Themed'
 import idToken from '@/components/getIdToken'
 import { MyContext } from '@/providers/storageProvider'
 import axios from 'axios'
-import { Link } from 'expo-router'
 import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, GestureResponderEvent, Image, ImageSourcePropType, ScrollView, TextInput, TouchableOpacity, View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
@@ -35,7 +34,6 @@ const Explore = () => {
   const { storeToken, storeId } = useContext(MyContext);
   const [loading, setLoading] = useState<boolean>(false)
   const [data, setData] = useState<ExploreDataType[]>([])
-  const [dataa, setDataa] = useState<ExploreDataType>()
   const [items, setItems] = useState<ExploreDataType[]>([])
   const [searchByName, setSearchByName] = useState<string>('')
 
@@ -94,8 +92,8 @@ const Explore = () => {
   return (
     <ScrollView style={{ minHeight: "100%", backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} contentContainerStyle={{ width: Dimensions.get('window').width * 0.9, alignSelf: "center" }}>
 
-      <View style={{ marginVertical: 20, position: "relative" }}>
-        <View style={{ position: "absolute", top: 14, left: 15, opacity: 0.8 }}>
+      <View style={{ marginVertical: 20, position: "relative", display:"flex", flexDirection:"row", alignItems:"center", }}>
+        <View style={{ position:"absolute", zIndex:10, left:15}}>
           <Icon color='gray' name='search' size={18} />
         </View>
         <TextInput
@@ -103,11 +101,11 @@ const Explore = () => {
           onChangeText={setSearchByName}
           placeholder='search pet by name...'
           placeholderTextColor={'gray'}
-          style={{ borderWidth: 1, borderColor: 'gray', padding: 8, marginTop: 5, backgroundColor: 'white', borderRadius: 20, textAlign: "center" }}
+          style={{ borderWidth: 1, borderColor: 'gray', padding: 8, marginTop: 5, backgroundColor: 'white', borderRadius: 20, textAlign: "center", width: Dimensions.get('window').width * 0.9, color:"gray" }}
         />
       </View>
 
-      <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent:"space-around", marginVertical:20}} >
+      <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-evenly", marginVertical: 20, gap: 30 }} >
         {
           items.length > 0 && items.map((data: ExploreDataType) => (
             <RenderNewlyWelcomed key={data._id} data={data} />

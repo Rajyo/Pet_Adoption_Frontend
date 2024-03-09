@@ -3,7 +3,7 @@ import React from 'react'
 
 const Favourites = () => {
   return (
-    <View>
+    <View style={{minHeight:"100%"}}>
       <Text>Favourites</Text>
     </View>
   )

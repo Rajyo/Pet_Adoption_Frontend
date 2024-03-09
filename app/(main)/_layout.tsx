@@ -1,4 +1,4 @@
-import { View } from '@/components/Themed';
+import { View, useThemeColor } from '@/components/Themed';
 import { useColorScheme } from '@/components/useColorScheme.web';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link, Tabs } from 'expo-router';
@@ -30,7 +30,7 @@ export default function HomeLayout() {
         options={{
           title: "Title", headerTitle: "PAWSFORYOU",
           headerTitleStyle: { color: "#fd6100", fontSize: 22, fontWeight: "700" },
-          headerRight: () => <Icon name="bell-o" color={colorScheme == "light" ? "black" : "white"} size={23} />, headerRightContainerStyle: { paddingRight: 10 },
+          headerRight: () => <Icon name="bell-o" color={useThemeColor({ light: 'black', dark: 'white' }, 'text')} size={23} />, headerRightContainerStyle: { paddingRight: 10 },
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />, tabBarActiveTintColor: "#fd6100",
         }}
       />
@@ -41,7 +41,7 @@ export default function HomeLayout() {
           headerTitleStyle: { color: "#fd6100", fontSize: 22, fontWeight: "700" },
           headerRight: () => <View style={{ paddingRight: 20 }}>
             <Link href={'/(components)/(explore)/FilterComponent'}>
-              <Icon name='filter' color={colorScheme == "light" ? "black" : "white"} size={25}></Icon>
+              <Icon name='filter' color={useThemeColor({ light: 'black', dark: 'white' }, 'text')} size={25}></Icon>
             </Link>
           </View>,
           tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />, tabBarActiveTintColor: "#fd6100",
