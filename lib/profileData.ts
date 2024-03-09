@@ -14,17 +14,11 @@ export const profileData = [
     {
         "id": 3,
         "title": "Pet Resources",
-        "icon": "paw",
+        "icon": "list",
         "link": "/(components)/petResources"
     },
     {
         "id": 4,
-        "title": "Adoption Status",
-        "icon": "list",
-        "link": "/(components)/adoptionStatus"
-    },
-    {
-        "id": 5,
         "title": "Logout",
         "icon": "power-off",
         "link": "logout"

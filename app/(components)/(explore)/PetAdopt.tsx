@@ -41,53 +41,60 @@ const PetAdopt = () => {
   const handleConfirm = async () => {
     // console.log(adoptionDate, fullName, phoneNumber, address);
 
-    if(adoptionDate == ''){
+    if (adoptionDate == '') {
       Alert.alert("Please enter date")
       return
+    } else {
+      const date = new Date()
+      const finalDate = date.toJSON().split('T')[0]
+      if (finalDate > adoptionDate) {
+        Alert.alert("Please enter valid date")
+        return
+      }
     }
-    
-    if(fullName == ''){
+
+    if (fullName == '') {
       Alert.alert("Please enter name")
       return
     }
 
-    if(phoneNumber.length !== 10){
+    if (phoneNumber.length !== 10) {
       Alert.alert("Please enter valid Phone Number")
       return
     }
 
-    if(address == ''){
+    if (address == '') {
       Alert.alert("Please enter Address")
       return
     }
     //router.replace('/')
     await axios.post('http://10.0.0.58:8000/api/petAdoptionAppointment/', {
-            adoptionDate,
-            fullName,
-            phoneNumber,
-            address,
-            petName: name,
-            petGender: gender,
-            petType: typeOfPet,
-            petAgeInWeeks: ageInWeeks,
-            petPic: pic,
-            petBreed: breed
-        }, {
-            headers: {
-                Authorization: token
-                    ? "Bearer " + token
-                    : null,
-                "Content-Type": "application/json",
-                accept: "application/json",
-            },
-        })
-            .then((res: any) => {
-                // console.log(res.data);
-                router.push('/(components)/(profile)/adoptionStatus')
-              })
-            .catch((error: any) => {
-                console.log(error)
-            })
+      adoptionDate,
+      fullName,
+      phoneNumber,
+      address,
+      petName: name,
+      petGender: gender,
+      petType: typeOfPet,
+      petAgeInWeeks: ageInWeeks,
+      petPic: pic,
+      petBreed: breed
+    }, {
+      headers: {
+        Authorization: token
+          ? "Bearer " + token
+          : null,
+        "Content-Type": "application/json",
+        accept: "application/json",
+      },
+    })
+      .then((res: any) => {
+        // console.log(res.data);
+        router.push('/adoption')
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
   }
 
   return (
@@ -105,7 +112,7 @@ const PetAdopt = () => {
               <Text style={{ color: "gray", fontWeight: "600", fontSize: 15 }}>{Number(ageInWeeks)} weeks old</Text>
             </View>
           </View>
-          <Image source={pic} style={{ width: 100, height: 100, borderRadius: 10 }} />
+          <Image source={{uri: pic}} style={{ width: 100, height: 100, borderRadius: 10 }} />
         </View>
 
         <View style={{ borderBottomColor: "#cccccc", borderBottomWidth: 0.2, marginVertical: 25 }} />
@@ -114,28 +121,32 @@ const PetAdopt = () => {
         <View style={{ display: "flex", gap: 20 }}>
 
           <View style={{ display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "#cccccc", marginHorizontal: 20, shadowColor: "#cccccc", shadowOffset: { width: 5, height: 5 }, shadowRadius: 10, shadowOpacity: 0.5 }}>
-            <TouchableOpacity style={{ paddingHorizontal: 20, paddingVertical: 15, borderRightWidth: 1, borderRightColor: "#cccccc" }} onPress={() => setCalendar(!calendar) }>
+            <TouchableOpacity style={{ paddingHorizontal: 20, paddingVertical: 15, borderRightWidth: 1, borderRightColor: "#cccccc" }} onPress={() => setCalendar(!calendar)}>
               <Icon name='calendar' color='gray' size={20}></Icon>
             </TouchableOpacity>
 
             {calendar && <Calendar
-                            onDayPress={day => {
-                              //console.log(day);
-                              setAdoptionDate(day.dateString)
-                              setCalendar(false)
-                            }}
-                          />
+              onDayPress={day => {
+                // console.log("day", day);
+                setAdoptionDate(day.dateString)
+                setCalendar(false)
+              }}
+            />
             }
-            
-                <TextInput
-                  value={adoptionDate}
-                  onChangeText={setAdoptionDate}
-                  placeholder='Select Adoption Date'
-                  aria-disabled
-                  onPointerDown={() => setCalendar(true)}
-                  style={{ paddingHorizontal: 20, width: "100%", color: "gray" }}
-                />            
-            
+
+            <TextInput
+              value={adoptionDate}
+              onChangeText={setAdoptionDate}
+              placeholder='Select Adoption Date'
+              placeholderTextColor={'gray'}
+              aria-disabled
+              // editable={false}
+              keyboardType='numeric'
+              onFocus={() => setCalendar(true)}
+              onPointerDown={() => setCalendar(true)}
+              style={{ paddingHorizontal: 20, width: "100%", color: "gray" }}
+            />
+
           </View>
 
           <View style={{ display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "#cccccc", marginHorizontal: 20, shadowColor: "#cccccc", shadowOffset: { width: 5, height: 5 }, shadowRadius: 10, shadowOpacity: 0.5 }}>
@@ -147,6 +158,7 @@ const PetAdopt = () => {
               onChangeText={setFullName}
               maxLength={20}
               placeholder="John Cena"
+              placeholderTextColor={'gray'}
               style={{ paddingHorizontal: 20, width: "100%", color: "gray" }}
             />
           </View>
@@ -159,7 +171,9 @@ const PetAdopt = () => {
               value={phoneNumber}
               onChangeText={setPhoneNumber}
               maxLength={10}
+              keyboardType='phone-pad'
               placeholder="987543210"
+              placeholderTextColor={'gray'}
               style={{ paddingHorizontal: 20, width: "100%", color: "gray" }}
             />
           </View>
@@ -173,10 +187,11 @@ const PetAdopt = () => {
               onChangeText={setAddress}
               maxLength={50}
               placeholder="Hinjewadi, Pune, Maharahtra"
+              placeholderTextColor={'gray'}
               style={{ paddingHorizontal: 20, width: "100%", color: "gray" }}
             />
           </View>
-          
+
           <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", marginTop: 20 }} onPress={handleConfirm} >
             <Text style={{ backgroundColor: "#fd6100", color: "white", paddingVertical: 8, paddingHorizontal: 20, borderRadius: 10, fontSize: 18, fontWeight: "600", textAlign: "center", width: Dimensions.get('window').width * 0.8 }}>CONFIRM</Text>
           </TouchableOpacity>
@@ -184,8 +199,8 @@ const PetAdopt = () => {
         </View>
       </ScrollView>
 
-      <View style={{marginVertical: 20}}>
-        <Text style={{ color: "gray", textAlign: "center" }}>By scheduling a visit, you agree to our <span style={{ fontWeight: "bold" }}>Terms and Conditions.</span></Text>
+      <View style={{ marginVertical: 20 }}>
+        <Text style={{ color: "gray", textAlign: "center" }}>By scheduling a visit, you agree to our <Text style={{ fontWeight: "bold" }}>Terms and Conditions.</Text></Text>
       </View>
 
     </View>

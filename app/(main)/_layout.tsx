@@ -55,6 +55,14 @@ export default function HomeLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />, tabBarActiveTintColor: "#fd6100",
         }}
       />
+      
+      <Tabs.Screen name='adoption'
+        options={{
+          title: "Adoption", headerTitle: "Pet Adoption",
+          headerTitleStyle: { fontSize: 22, fontWeight: "700" },
+          tabBarIcon: ({ color }) => <TabBarIcon name="paw" color={color} />, tabBarActiveTintColor: "#fd6100",
+        }}
+      />
 
       <Tabs.Screen name='profile'
         options={{

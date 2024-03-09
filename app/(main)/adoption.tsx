@@ -6,7 +6,7 @@ import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { Image } from 'react-native';
 
-const AdoptionStatus = () => {
+const Adoption = () => {
   const [data, setData] = useState<any>(null)
   const { storeToken, storeId } = useContext(MyContext);
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
@@ -32,7 +32,7 @@ const AdoptionStatus = () => {
     }
     adoptionStatus()
 
-  }, [])
+  }, [token])
 
   return (
     <View style={{ minHeight: "100%", paddingHorizontal: 20 }}>
@@ -69,4 +69,4 @@ const AdoptionStatus = () => {
   )
 }
 
-export default AdoptionStatus
+export default Adoption
