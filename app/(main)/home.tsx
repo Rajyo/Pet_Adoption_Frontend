@@ -9,42 +9,22 @@ import axios from 'axios';
 import idToken from '@/components/getIdToken';
 import { MyContext } from '@/providers/storageProvider';
 import { Link } from 'expo-router';
+import {BACKEND_URL} from '@env'
+import { Icon } from './explore';
 
 
-function Icon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  size: number
-}) {
-  return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
-}
-
-type HomeDataType = {
-  _id: string
-  ageInWeeks: number
-  breed: string
-  gender: string
-  location: string
-  name: string
-  petBehaviour: string
-  pic: ImageSourcePropType | undefined
-  typeOfPet: string
-  dateTime: string
-  petInfo: string[]
-  likes?: string[] | null
-}
 
 const Main = () => {
   const { storeToken, storeId } = useContext(MyContext);
   const [loading, setLoading] = useState<boolean>(false)
-  const [data, setData] = useState<HomeDataType[]>([])
+  const [data, setData] = useState<PetType[]>([])
 
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
   useEffect(() => {
     setLoading(true)
     const petProfile = async () => {
-      await axios.get('http://10.0.0.58:8000/api/petProfile/', {
+      await axios.get(`${BACKEND_URL}/petProfile/`, {
         headers: {
           Authorization: token
             ? "Bearer " + token
@@ -86,7 +66,7 @@ const Main = () => {
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 5 }}>
           {
-            data && data?.map((item: HomeDataType) => (
+            data && data?.map((item: PetType) => (
               <RenderUpcomingVisits key={item._id} data={item} />
             ))
           }
@@ -104,7 +84,7 @@ const Main = () => {
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginTop: 5 }} contentContainerStyle={{ gap: 20 }}>
           {
-            data && data?.map((item: HomeDataType) => (
+            data && data?.map((item: PetType) => (
               <RenderNewlyWelcomed key={item._id} data={item} />
             ))
           }

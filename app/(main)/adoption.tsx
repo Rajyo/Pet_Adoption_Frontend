@@ -5,15 +5,17 @@ import { MyContext } from '@/providers/storageProvider';
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { Image } from 'react-native';
+import {BACKEND_URL} from '@env'
+
 
 const Adoption = () => {
-  const [data, setData] = useState<any>(null)
+  const [data, setData] = useState<UserType | null>(null)
   const { storeToken, storeId } = useContext(MyContext);
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
   useEffect(() => {
     const adoptionStatus = async () => {
-      await axios.get('http://10.0.0.58:8000/api/user/', {
+      await axios.get(`${BACKEND_URL}/user/`, {
         headers: {
           Authorization: token
             ? "Bearer " + token
@@ -38,7 +40,7 @@ const Adoption = () => {
     <View style={{ minHeight: "100%", paddingHorizontal: 20 }}>
       {
         data && data?.petAdoptionId.length > 0
-          ? data?.petAdoptionId?.map((item: any) => (
+          ? data?.petAdoptionId?.map((item: PetAdoption) => (
             <View key={item._id} style={{ paddingTop: 10, marginVertical: 15, borderColor: "#cccccc", borderWidth: 1, borderRadius: 10, shadowColor: "#cccccc", shadowOffset: { width: 5, height: 5 }, shadowRadius: 5, shadowOpacity: 0.8, gap: 10 }}>
               <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal:10,}}>
                 <View style={{ display: "flex", justifyContent: "space-between" }}>

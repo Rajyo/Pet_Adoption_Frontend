@@ -6,21 +6,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, GestureResponderEvent, Image, ImageSourcePropType, ScrollView, TextInput, TouchableOpacity, View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import RenderNewlyWelcomed from '../(components)/(home)/RenderNewlyWelcomed'
+import {BACKEND_URL} from '@env'
 
-type ExploreDataType = {
-  _id: string
-  ageInWeeks: number
-  breed: string
-  gender: string
-  location: string
-  name: string
-  petBehaviour: string
-  pic: ImageSourcePropType | undefined
-  typeOfPet: string
-  dateTime: string
-  petInfo: string[]
-  likes?: string[] | null
-}
 
 export function Icon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -33,8 +20,8 @@ export function Icon(props: {
 const Explore = () => {
   const { storeToken, storeId } = useContext(MyContext);
   const [loading, setLoading] = useState<boolean>(false)
-  const [data, setData] = useState<ExploreDataType[]>([])
-  const [items, setItems] = useState<ExploreDataType[]>([])
+  const [data, setData] = useState<PetType[]>([])
+  const [items, setItems] = useState<PetType[]>([])
   const [searchByName, setSearchByName] = useState<string>('')
 
 
@@ -43,7 +30,7 @@ const Explore = () => {
   useEffect(() => {
     setLoading(true)
     const petProfile = async () => {
-      await axios.get('http://10.0.0.58:8000/api/petProfile/', {
+      await axios.get(`${BACKEND_URL}/petProfile/`, {
         headers: {
           Authorization: token
             ? "Bearer " + token
@@ -78,7 +65,7 @@ const Explore = () => {
     }
     const reverseSearchName = reverseString(searchByName)
 
-    data.length > 0 && data.map((item: ExploreDataType) => {
+    data.length > 0 && data.map((item: PetType) => {
 
       if (item.name.toLowerCase().includes(searchByName.toLowerCase()) || item.name.toLowerCase().includes(reverseSearchName.toLowerCase())) {
         filteredItems.push(item)
@@ -107,7 +94,7 @@ const Explore = () => {
 
       <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-evenly", marginVertical: 20, gap: 30 }} >
         {
-          items.length > 0 && items.map((data: ExploreDataType) => (
+          items.length > 0 && items.map((data: PetType) => (
             <RenderNewlyWelcomed key={data._id} data={data} />
           ))
         }

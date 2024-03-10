@@ -7,28 +7,15 @@ import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useContext, useState } from 'react'
 import { Alert, Dimensions, Image, ImageSourcePropType, ScrollView, TextInput, TouchableOpacity } from 'react-native'
 import { Calendar } from 'react-native-calendars';
+import {BACKEND_URL} from '@env'
+import { Icon } from '@/app/(main)/explore';
 
 
-function Icon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  size: number
-}) {
-  return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
-}
-
-type PetAdoptType = {
-  ageInWeeks: number
-  breed: string
-  gender: string
-  name: string
-  pic: ImageSourcePropType | undefined
-}
 
 const PetAdopt = () => {
   const { name, breed, gender, ageInWeeks, pic, _id, typeOfPet } = useLocalSearchParams<any>()
 
-  const [adoptionDate, setAdoptionDate] = useState<any>('')
+  const [adoptionDate, setAdoptionDate] = useState<string>('')
   const [fullName, setFullName] = useState<string>('')
   const [phoneNumber, setPhoneNumber] = useState<string>('')
   const [address, setAddress] = useState<string>('')
@@ -68,7 +55,7 @@ const PetAdopt = () => {
       return
     }
     //router.replace('/')
-    await axios.post('http://10.0.0.58:8000/api/petAdoptionAppointment/', {
+    await axios.post(`${BACKEND_URL}/petAdoptionAppointment/`, {
       adoptionDate,
       fullName,
       phoneNumber,

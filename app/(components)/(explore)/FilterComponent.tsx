@@ -1,3 +1,4 @@
+import { Icon } from '@/app/(main)/explore'
 import { View, Text, useThemeColor } from '@/components/Themed'
 import { filterTypeData, nonBreedfilterTypeData } from '@/lib/filterTypeData'
 import { finalFilteredData } from '@/lib/finalFilteredData'
@@ -5,20 +6,6 @@ import { FontAwesome } from '@expo/vector-icons'
 import { Link } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, TouchableOpacity } from 'react-native'
-
-
-function Icon(props: {
-    name: React.ComponentProps<typeof FontAwesome>['name'];
-    color: string;
-    size: number
-}) {
-    return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
-}
-
-type filterType = {
-    filterSelect: string | undefined
-    item: string | undefined
-}
 
 
 const FilterComponent = () => {

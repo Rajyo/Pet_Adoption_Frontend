@@ -9,19 +9,21 @@ import Colors from '@/constants/Colors';
 import Button from '@/components/Button';
 import { useColorScheme } from '@/components/useColorScheme.web';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import {BACKEND_URL} from '@env'
 
 
 const EditProfile = () => {
   const { storeToken, storeId } = useContext(MyContext);
   const [isAdmin, setIsAdmin] = useState<string>('')
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [name, setName] = useState('')
-  const [updatedName, setUpdatedName] = useState('')
-  const [updatedPassword, setUpdatedPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [updatedLoading, setUpdatedLoading] = useState(false)
+  const [email, setEmail] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [updatedName, setUpdatedName] = useState<string>('')
+  const [updatedPassword, setUpdatedPassword] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+  const [updatedLoading, setUpdatedLoading] = useState<boolean>(false)
 
+  
   type editProfileProps = {
     iA: string,
     un: string,
@@ -49,36 +51,6 @@ const EditProfile = () => {
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
   loading && <ActivityIndicator />
-
-  // useEffect(() => {
-  //   // @refresh reset
-  //   setLoading(true)
-  //   const user = async () => {
-  //     await axios.get('http://10.0.0.58:8000/api/user/', {
-  //       headers: {
-  //         Authorization: token
-  //           ? "Bearer " + token
-  //           : null,
-  //         "Content-Type": "application/json",
-  //         accept: "application/json",
-  //       },
-  //     })
-  //       .then(res => {
-  //         // console.log(res.data);
-  //         setIsAdmin(res.data.isAdmin)
-  //         setEmail(res.data.email)
-  //         setUsername(res.data.username)
-  //         setUpdatedUsername(res.data.username)
-  //         setLoading(false)
-  //       })
-  //       .catch((error: any) => {
-  //         console.log(error)
-  //         setLoading(false)
-  //       })
-  //   }
-  //   user()
-
-  // }, [token])
 
   const router = useRouter()
 
@@ -115,7 +87,7 @@ const EditProfile = () => {
     const size = Object.keys(updatedUser).length
     // console.log(updatedUser);
 
-    size > 0 && await axios.put('http://10.0.0.58:8000/api/user/', updatedUser, {
+    size > 0 && await axios.put(`${BACKEND_URL}/user/`, updatedUser, {
       headers: {
         Authorization: token
           ? "Bearer " + token

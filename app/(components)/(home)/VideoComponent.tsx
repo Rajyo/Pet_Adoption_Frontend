@@ -1,16 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
-import { FontAwesome } from '@expo/vector-icons';
 
-
-// function Icon(props: {
-//   name: React.ComponentProps<typeof FontAwesome>['name'];
-//   color: string;
-//   size: number
-// }) {
-//   return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
-// }
 
 const VideoComponent = () => {
   const video = React.useRef<any>(null);
@@ -27,12 +18,6 @@ const VideoComponent = () => {
         isLooping
         onPlaybackStatusUpdate={status => setStatus(() => status)}
       />
-      {/* <View style={styles.buttons}>
-        <Icon color={status.isPlaying ? "gray" : "orange"} name={status.isPlaying ? 'pause-circle-o' : "play-circle-o"} size={50}
-          onPress={() => status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()}
-        />
-      </View> */}
-
     </View>
   );
 }

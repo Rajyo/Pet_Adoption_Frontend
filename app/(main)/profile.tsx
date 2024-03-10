@@ -10,15 +10,8 @@ import RenderProfileData from '@/app/(components)/(profile)/RenderProfileData'
 import idToken from '@/components/getIdToken'
 import { MyContext } from '@/providers/storageProvider'
 import axios from 'axios'
-
-
-function Icon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  size: number
-}) {
-  return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
-}
+import {BACKEND_URL} from '@env'
+import { Icon } from './explore'
 
 
 const Profile = () => {
@@ -44,7 +37,7 @@ const Profile = () => {
     // @refresh reset
     setLoading(true)
     const user = async () => {
-      await axios.get('http://10.0.0.58:8000/api/user/', {
+      await axios.get(`${BACKEND_URL}/user/`, {
         headers: {
           Authorization: token
             ? "Bearer " + token

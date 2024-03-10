@@ -2,6 +2,7 @@ import { View, useThemeColor } from '@/components/Themed';
 import { useColorScheme } from '@/components/useColorScheme.web';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link, Tabs } from 'expo-router';
+import { Icon } from './explore';
 
 
 function TabBarIcon(props: {
@@ -11,13 +12,6 @@ function TabBarIcon(props: {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
-function Icon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  size: number
-}) {
-  return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
-}
 
 export default function HomeLayout() {
   const colorScheme = useColorScheme()

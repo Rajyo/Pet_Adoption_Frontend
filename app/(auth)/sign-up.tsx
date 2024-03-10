@@ -7,14 +7,15 @@ import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Icon } from '../_layout';
+import {BACKEND_URL} from '@env'
 
 
 const SignUpScreen = () => {
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter()
 
 
@@ -81,7 +82,7 @@ const SignUpScreen = () => {
 
 
     setLoading(true);
-    await axios.post('http://10.0.0.58:8000/api/auth/register', {
+    await axios.post(`${BACKEND_URL}/auth/register`, {
       name,
       username,
       email,

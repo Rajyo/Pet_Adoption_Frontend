@@ -6,27 +6,12 @@ import axios from 'axios';
 import { Link } from 'expo-router';
 import React, { useContext, useEffect, useState } from 'react'
 import { GestureResponderEvent, Image, ImageSourcePropType, TouchableOpacity, View } from 'react-native';
+import {BACKEND_URL} from '@env'
 
-type renderNewlyWelcomedProps = {
-    data: {
-        _id: string
-        ageInWeeks: number
-        breed: string
-        gender: string
-        location: string
-        name: string
-        petBehaviour: string
-        pic: ImageSourcePropType | undefined
-        typeOfPet: string
-        dateTime: string
-        petInfo: string[]
-        likes?: string[] | null
-    }
-}
 
 
 const RenderNewlyWelcomed = ({ data }: renderNewlyWelcomedProps) => {
-    const [dataa, setDataa] = useState(data)
+    const [dataa, setDataa] = useState<PetType>(data)
     const { storeToken, storeId } = useContext(MyContext);
     const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
@@ -42,7 +27,7 @@ const RenderNewlyWelcomed = ({ data }: renderNewlyWelcomedProps) => {
             }
         })
     }
-    console.log(total);
+    // console.log(total);
 
     const handlePetLiking = async (e: GestureResponderEvent, id: string) => {
         e.preventDefault();
@@ -50,7 +35,7 @@ const RenderNewlyWelcomed = ({ data }: renderNewlyWelcomedProps) => {
 
         total ? final = 'unlike' : final = 'like'
 
-        await axios.put(`http://10.0.0.58:8000/api/petProfile/${final}`, {
+        await axios.put(`${BACKEND_URL}/petProfile/${final}`, {
             petProfileId: id
         }, {
             headers: {

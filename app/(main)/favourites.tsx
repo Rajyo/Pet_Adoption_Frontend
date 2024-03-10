@@ -6,15 +6,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Icon } from './explore';
 import { Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import {BACKEND_URL} from '@env'
+
 
 const Favourites = () => {
-  const [petLiked, setPetLiked] = useState<string[] | null>(null)
+  const [petLiked, setPetLiked] = useState<PetType[] | null>(null)
   const { storeToken, storeId } = useContext(MyContext);
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
   useEffect(() => {
     const petProfile = async () => {
-      await axios.get('http://10.0.0.58:8000/api/user/', {
+      await axios.get(`${BACKEND_URL}/user/`, {
         headers: {
           Authorization: token
             ? "Bearer " + token
@@ -42,7 +44,7 @@ const Favourites = () => {
     <View style={{ minHeight: "100%", padding: 20 }}>
       {
         (petLiked && petLiked.length > 0)
-          ? petLiked?.map((item: any) => (
+          ? petLiked?.map((item: PetType) => (
 
               <TouchableOpacity key={item._id} onPress={() => router.push({pathname: '/(components)/(explore)/PetProfile', params: { _id: item._id, ageInWeeks: item.ageInWeeks, petBehaviour: item.petBehaviour, breed: item.breed, gender: item.gender, petInfo: item.petInfo, location: item.location, pic: item.pic as any, name: item.name, likes: item.likes as any, typeOfPet: item.typeOfPet } })} style={{ padding: 10, marginVertical: 15, borderColor: "#cccccc", borderWidth: 1, borderRadius: 10, shadowColor: "#cccccc", shadowOffset: { width: 5, height: 5 }, shadowRadius: 5, shadowOpacity: 0.8, gap: 10, }}>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 10, }}>

@@ -7,39 +7,11 @@ import { Link, Stack, useLocalSearchParams } from 'expo-router'
 import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, Image, ImageSourcePropType, ScrollView, TouchableOpacity } from 'react-native'
 import RenderNewlyWelcomed from '../(home)/RenderNewlyWelcomed'
-
-type finalResultType = {
-    petType: string,
-    gender: string,
-    age: string,
-    breed: string
-}
-
-type finalDataType = {
-    _id: string
-    ageInWeeks: number
-    breed: string
-    gender: string
-    location: string
-    name: string
-    petBehaviour: string
-    pic: ImageSourcePropType | undefined
-    typeOfPet: string
-    dateTime: string
-    petInfo: string[]
-    likes?: string[] | null
-}
-
-function Icon(props: {
-    name: React.ComponentProps<typeof FontAwesome>['name'];
-    color: string;
-    size: number
-}) {
-    return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
-}
+import {BACKEND_URL} from '@env'
+import { Icon } from '@/app/(main)/explore'
 
 
-var filteredArray: finalDataType[];
+var filteredArray: PetType[];
 
 const FilterResult = () => {
     const { petType, gender, age, breed }: finalResultType = useLocalSearchParams()
@@ -64,7 +36,7 @@ const FilterResult = () => {
     ]
 
     const { storeToken, storeId } = useContext(MyContext);
-    const [data, setData] = useState<finalDataType[]>([])
+    const [data, setData] = useState<PetType[]>([])
     const [loading, setLoading] = useState<boolean>(false)
 
     const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
@@ -72,7 +44,7 @@ const FilterResult = () => {
     useEffect(() => {
         setLoading(true)
         const petProfile = async () => {
-            await axios.get('http://10.0.0.58:8000/api/petProfile/', {
+            await axios.get(`${BACKEND_URL}/petProfile/`, {
                 headers: {
                     Authorization: token
                         ? "Bearer " + token
@@ -97,24 +69,24 @@ const FilterResult = () => {
 
     loading && <ActivityIndicator />
 
-    var finalFilteedItems = new Set<finalDataType>()
+    var finalFilteedItems = new Set<PetType>()
     const filterFunc = () => {
 
-        const petFilteredItems = new Set<finalDataType>()
-        petType.length > 0 && data.map((item: finalDataType) => {
+        const petFilteredItems = new Set<PetType>()
+        petType.length > 0 && data.map((item: PetType) => {
             if (item.typeOfPet == petType) {
                 petFilteredItems.add(item)
                 finalFilteedItems.add(item)
             }
         })
-        petFilteredItems.size == 0 && data.map((item: finalDataType) => {
+        petFilteredItems.size == 0 && data.map((item: PetType) => {
             petFilteredItems.add(item)
             finalFilteedItems.add(item)
         })
 
 
-        const genderFilteredItems = new Set<finalDataType>()
-        gender.length > 0 && data.map((item: finalDataType) => {
+        const genderFilteredItems = new Set<PetType>()
+        gender.length > 0 && data.map((item: PetType) => {
             if (item.gender == gender) {
                 genderFilteredItems.add(item)
             }
@@ -123,8 +95,8 @@ const FilterResult = () => {
         genderFilteredItems.size > 0 && (finalFilteedItems = new Set([...finalFilteedItems].filter(x => genderFilteredItems.has(x))))
 
 
-        const ageFilteredItems = new Set<finalDataType>()
-        age.length > 0 && data.map((item: finalDataType) => {
+        const ageFilteredItems = new Set<PetType>()
+        age.length > 0 && data.map((item: PetType) => {
             if (item.ageInWeeks == Number(age[0])) {
                 ageFilteredItems.add(item)
             }
@@ -133,8 +105,8 @@ const FilterResult = () => {
         ageFilteredItems.size > 0 && (finalFilteedItems = new Set([...finalFilteedItems].filter(x => ageFilteredItems.has(x))))
 
 
-        const breedFilteredItems = new Set<finalDataType>()
-        breed.length > 0 && data.map((item: finalDataType) => {
+        const breedFilteredItems = new Set<PetType>()
+        breed.length > 0 && data.map((item: PetType) => {
             if (item.breed == breed) {
                 breedFilteredItems.add(item)
             }
@@ -180,7 +152,7 @@ const FilterResult = () => {
                     </View>
                     : <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-around", marginVertical: 20, gap: 30 }} >
                         {
-                            filteredArray?.map((data: finalDataType) => (
+                            filteredArray?.map((data: PetType) => (
                                 <RenderNewlyWelcomed key={data._id} data={data} />
                             ))
                         }

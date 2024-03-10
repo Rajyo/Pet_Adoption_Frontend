@@ -3,23 +3,9 @@ import { Link, useRouter } from "expo-router"
 import { Pressable, useColorScheme } from "react-native"
 import { Text, View } from "../../../components/Themed"
 import { FontAwesome } from "@expo/vector-icons"
+import { Icon } from "@/app/(main)/explore"
 
-function Icon(props: {
-    name: React.ComponentProps<typeof FontAwesome>['name'];
-    color: string;
-    size: number
-}) {
-    return <FontAwesome style={{ marginBottom: -3, }} {...props} />;
-}
 
-type renderProfileDataProps = {
-    data: {
-        id: number
-        title: string
-        icon: any
-        link?: string
-    }
-}
 
 const RenderProfileData = ({ data }: renderProfileDataProps) => {
     const router = useRouter()

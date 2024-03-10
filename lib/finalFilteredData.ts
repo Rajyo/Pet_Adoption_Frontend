@@ -18,6 +18,5 @@ export const finalFilteredData = [
         id: 1,
         filterType: "Breed",
         options: ["Husky", "Beagle", "Sphynx", "Ragamuffin"]
-//        options: ["Doberman", "Shih Tzu", "Labrador", "Husky", "German Shephard", "Pitbull", "Bulldog", "Beagle"]
     },
 ]
