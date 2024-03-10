@@ -44,11 +44,10 @@ type renderNewlyWelcomedProps = {
 
 type renderUpcomingVisitsProps = {
     data: {
-        id: number
         dateTime: string
         location: string
         name: string
-        ageInWeeks: string
+        ageInWeeks: number
         pic: ImageSourcePropType | undefined
     }
 }
