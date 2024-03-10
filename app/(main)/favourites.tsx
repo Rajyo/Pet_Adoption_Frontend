@@ -44,7 +44,7 @@ const Favourites = () => {
         (petLiked && petLiked.length > 0)
           ? petLiked?.map((item: any) => (
 
-              <TouchableOpacity onPress={() => router.push({pathname: '/(components)/(explore)/PetProfile', params: { _id: item._id, ageInWeeks: item.ageInWeeks, petBehaviour: item.petBehaviour, breed: item.breed, gender: item.gender, petInfo: item.petInfo, location: item.location, pic: item.pic as any, name: item.name, likes: item.likes as any, typeOfPet: item.typeOfPet } })} style={{ padding: 10, marginVertical: 15, borderColor: "#cccccc", borderWidth: 1, borderRadius: 10, shadowColor: "#cccccc", shadowOffset: { width: 5, height: 5 }, shadowRadius: 5, shadowOpacity: 0.8, gap: 10, }}>
+              <TouchableOpacity key={item._id} onPress={() => router.push({pathname: '/(components)/(explore)/PetProfile', params: { _id: item._id, ageInWeeks: item.ageInWeeks, petBehaviour: item.petBehaviour, breed: item.breed, gender: item.gender, petInfo: item.petInfo, location: item.location, pic: item.pic as any, name: item.name, likes: item.likes as any, typeOfPet: item.typeOfPet } })} style={{ padding: 10, marginVertical: 15, borderColor: "#cccccc", borderWidth: 1, borderRadius: 10, shadowColor: "#cccccc", shadowOffset: { width: 5, height: 5 }, shadowRadius: 5, shadowOpacity: 0.8, gap: 10, }}>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 10, }}>
                   <View style={{ display: "flex", justifyContent: "space-between" }}>
                     <Text style={{ fontSize: 22, fontWeight: "bold" }}>{item.name}</Text>
