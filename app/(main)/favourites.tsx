@@ -1,10 +1,10 @@
-import { Text, View } from '@/components/Themed'
+import { Text, View, useThemeColor } from '@/components/Themed'
 import idToken from '@/components/getIdToken'
 import { MyContext } from '@/providers/storageProvider';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Icon } from './explore';
-import { GestureResponderEvent, Image, TouchableOpacity } from 'react-native';
+import { FlatList, GestureResponderEvent, Image, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import {BACKEND_URL} from '@env'
 
@@ -13,6 +13,15 @@ const Favourites = () => {
   const [petLiked, setPetLiked] = useState<PetType[] | null>(null)
   const { storeToken, storeId } = useContext(MyContext);
   const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    petProfile()
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   var petProfile = async () => {
     await axios.get(`${BACKEND_URL}/user/`, {
@@ -65,13 +74,9 @@ const Favourites = () => {
 
   const router = useRouter()
 
-  return (
-    <View style={{ minHeight: "100%", padding: 20 }}>
-      {
-        (petLiked && petLiked.length > 0)
-          ? petLiked?.map((item: PetType) => (
-
-              <TouchableOpacity key={item._id} onPress={() => router.push({pathname: '/(components)/(explore)/PetProfile', params: { _id: item._id, ageInWeeks: item.ageInWeeks, petBehaviour: item.petBehaviour, breed: item.breed, gender: item.gender, petInfo: item.petInfo, location: item.location, pic: item.pic as any, name: item.name, likes: item.likes as any, typeOfPet: item.typeOfPet } })} style={{ padding: 8, marginVertical: 10, borderColor: "#cccccc", borderWidth: 1, borderRadius: 10, shadowColor: "#cccccc", shadowOffset: { width: 5, height: 5 }, shadowRadius: 5, shadowOpacity: 0.8, gap: 10, }}>
+  const renderItem = ({item}: {item: PetType}) => {
+    return (
+      <TouchableOpacity key={item._id} onPress={() => router.push({pathname: '/(components)/(explore)/PetProfile', params: { _id: item._id, ageInWeeks: item.ageInWeeks, petBehaviour: item.petBehaviour, breed: item.breed, gender: item.gender, petInfo: item.petInfo, location: item.location, pic: item.pic as any, name: item.name, likes: item.likes as any, typeOfPet: item.typeOfPet } })} style={{ padding: 8, marginVertical: 10, borderColor: "#cccccc", borderWidth: 1, borderRadius: 10, shadowColor: "#cccccc", shadowOffset: { width: 5, height: 5 }, shadowRadius: 5, shadowOpacity: 0.8, gap: 10, }}>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", }}>
                   <View style={{ display: "flex", justifyContent: "space-between" }}>
                     <Text style={{ fontSize: 22, fontWeight: "bold" }}>{item.name}</Text>
@@ -88,14 +93,26 @@ const Favourites = () => {
                 </TouchableOpacity>
                 </View>
               </TouchableOpacity>
+    )
+  }
 
-          ))
+  return (
+    <ScrollView style={{ minHeight: "100%", padding: 10, backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      {
+        (petLiked && petLiked.length > 0)
+          ? 
+            <FlatList 
+              data={petLiked}
+              renderItem={renderItem}
+              keyExtractor={(item) => item._id}
+            />
+          
           : <View style={{ display: "flex", alignItems: "center", width: "100%", gap: 50, paddingVertical: 40, }}>
             <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>You are yet to add a Pet to favourites.</Text>
             <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', color: "red" }}>Please choose a pet.</Text>
           </View>
       }
-    </View>
+    </ScrollView>
   )
 }
 

@@ -43,7 +43,7 @@ type renderNewlyWelcomedProps = {
 }
 
 type renderUpcomingVisitsProps = {
-    data: {
+    item: {
         dateTime: string
         location: string
         name: string
@@ -85,4 +85,17 @@ type UserType = {
     location: string
     petAdoptionId: PetAdoption[]
     petLikedId: PetType[]
+}
+
+type PetCareType = {
+    id: number
+    title: string
+    info: string[]
+}
+
+type PetResourcesType = {
+    id: number;
+    title: string;
+    link: string;
+    info: string;
 }

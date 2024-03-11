@@ -16,7 +16,7 @@ const RenderNewlyWelcomed = ({ data }: renderNewlyWelcomedProps) => {
     const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
     useEffect(() => {
-
+        
     }, [dataa])
 
     var total = false;
