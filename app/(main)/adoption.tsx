@@ -70,7 +70,7 @@ const Adoption = () => {
   }
 
   return (
-    <View style={{ minHeight: "100%", paddingHorizontal: 20 }}>
+    <View style={{ minHeight: "100%", paddingHorizontal: 20, margin:10, }}>
       {
         data && data?.petAdoptionId.length > 0
           ? <FlatList 

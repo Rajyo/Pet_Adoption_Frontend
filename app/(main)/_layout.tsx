@@ -22,7 +22,7 @@ export default function HomeLayout() {
 
       <Tabs.Screen name='home'
         options={{
-          title: "Title", headerTitle: "PAWSFORYOU",
+          title: "", headerTitle: "PAWSFORYOU",
           headerTitleStyle: { color: "#fd6100", fontSize: 22, fontWeight: "700" },
           headerRight: () => <Icon name="bell-o" color={useThemeColor({ light: 'black', dark: 'white' }, 'text')} size={23} />, headerRightContainerStyle: { paddingRight: 10 },
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />, tabBarActiveTintColor: "#fd6100",
@@ -31,7 +31,7 @@ export default function HomeLayout() {
 
       <Tabs.Screen name='explore'
         options={{
-          title: "Explore", headerTitle: "Explore",
+          title: "", headerTitle: "Explore",
           headerTitleStyle: { color: "#fd6100", fontSize: 22, fontWeight: "700" },
           headerRight: () => <View style={{ paddingRight: 20 }}>
             <Link href={'/(components)/(explore)/FilterComponent'}>
@@ -44,7 +44,7 @@ export default function HomeLayout() {
 
       <Tabs.Screen name='favourites'
         options={{
-          title: "Favourites", headerTitle: "Favourites",
+          title: "", headerTitle: "Favourites",
           headerTitleStyle: { fontSize: 22, fontWeight: "700" },
           tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />, tabBarActiveTintColor: "#fd6100",
         }}
@@ -52,7 +52,7 @@ export default function HomeLayout() {
       
       <Tabs.Screen name='adoption'
         options={{
-          title: "Adoption", headerTitle: "Pet Adoption",
+          title: "", headerTitle: "Pet Adoption",
           headerTitleStyle: { fontSize: 22, fontWeight: "700" },
           tabBarIcon: ({ color }) => <TabBarIcon name="paw" color={color} />, tabBarActiveTintColor: "#fd6100",
         }}
@@ -60,7 +60,7 @@ export default function HomeLayout() {
 
       <Tabs.Screen name='profile'
         options={{
-          title: "Profile", headerTitle: "Profile",
+          title: "", headerTitle: "Profile",
           headerTitleStyle: { fontSize: 22, fontWeight: "700" },
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
           tabBarActiveTintColor: "#fd6100",

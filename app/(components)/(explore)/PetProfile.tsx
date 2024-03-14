@@ -14,19 +14,33 @@ import { Icon } from '@/app/(main)/explore'
 const PetProfile = () => {
     const { _id, pic, name, location, breed, gender, ageInWeeks, petInfo, petBehaviour, likes, typeOfPet }: any = useLocalSearchParams()
     var result = petInfo.split(',')
-    // console.log(likes);
-    const [like, setLike] = useState(likes)
+    var like = likes.split(',')
+    // console.log(like);
+
     const { storeToken, storeId } = useContext(MyContext);
     const token = storeToken == 'No Token' ? idToken().storeToken : storeToken
 
+    var total = false;
+    if (like && like.length > 0) {
+        like.map((dalikes: string) => {
+            if (dalikes == storeId) {
+                return total = true
+            }
+        })
+    }
+
+    const [likedPet, setlikedPet] = useState(total)
 
     useEffect(() => {
-    })
+    }, [likedPet])
 
     const handlePetLiking = async (e: GestureResponderEvent, id: string) => {
         e.preventDefault();
+        let final;
 
-        await axios.put(`${BACKEND_URL}/petProfile/like`, {
+        total ? final = 'unlike' : final = 'like'
+
+        await axios.put(`${BACKEND_URL}/petProfile/${final}`, {
             petProfileId: id
         }, {
             headers: {
@@ -38,15 +52,8 @@ const PetProfile = () => {
             },
         })
             .then(res => {
-                console.log(res.data);
-                res.data.likes.length > 0
-                    ? res.data.likes.map((item: string) => {
-                        item == likes
-                            ? setLike(likes)
-                            : setLike("")
-                    })
-                    : setLike("")
-                // setDataa(res.data)
+                // console.log(res.data);
+                setlikedPet(!likedPet)
             })
             .catch((error: any) => {
                 console.log(error)
@@ -66,7 +73,7 @@ const PetProfile = () => {
                         <Text style={{ fontSize: 15 }}>{location}</Text>
                         <TouchableOpacity style={{ position: "absolute", right: 5, top: -50 }} onPress={(e) => handlePetLiking(e, _id)} >
                             {
-                                like.length > 10 ? <Icon color='red' size={22} name='heart' /> : <Icon color='white' size={20} name='heart-o' />
+                                likedPet ? <Icon color='red' size={22} name='heart' /> : <Icon color='white' size={20} name='heart-o' />
                             }
                         </TouchableOpacity>
                     </View>

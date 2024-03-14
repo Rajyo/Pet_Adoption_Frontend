@@ -97,7 +97,7 @@ const Favourites = () => {
   }
 
   return (
-    <ScrollView style={{ minHeight: "100%", padding: 10, backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView style={{ minHeight: "100%", margin:10, padding: 10, backgroundColor: useThemeColor({ light: "white", dark: "black" }, 'background') }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       {
         (petLiked && petLiked.length > 0)
           ? 

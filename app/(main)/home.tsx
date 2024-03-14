@@ -66,7 +66,7 @@ const Main = () => {
       </View>
 
       <View style={{ marginTop: 15 }}>
-        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom:2 }}>
           <Text style={{ fontSize: 18, fontWeight: "600" }}>Upcoming Visits</Text>
           <Text style={{ fontSize: 15, color: "orange", fontWeight: "bold", alignSelf: "center", }} >Scroll</Text>
         </View>
@@ -85,7 +85,7 @@ const Main = () => {
 
 
       <View style={{ marginTop: 25 }}>
-        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 10 }}>
           <Text style={{ fontSize: 18, fontWeight: "600" }}>Newly Welcomed</Text>
           <Link href={'/(main)/explore'}>
             <Text style={{ fontSize: 15, color: "orange", fontWeight: "bold" }} >See All</Text>
